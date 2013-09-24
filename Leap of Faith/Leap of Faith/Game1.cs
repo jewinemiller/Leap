@@ -19,6 +19,12 @@ namespace Leap_of_Faith
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D playerTexture;
+
+        //Make a player
+        Player player;
+
+        World world;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,7 +40,7 @@ namespace Leap_of_Faith
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            world = new World(graphics);
             base.Initialize();
         }
 
@@ -44,9 +50,15 @@ namespace Leap_of_Faith
         /// </summary>
         protected override void LoadContent()
         {
+            world.addPlatform(new Rectangle(100, 100, 150, 25),Content.Load<Texture2D>("Platform"));
+            world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"));
+            world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"));
+            world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"));
+
+            playerTexture = Content.Load<Texture2D>("dude");
+            player = new Player(playerTexture, graphics, world);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -64,14 +76,28 @@ namespace Leap_of_Faith
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+
+        KeyboardState prevState, currState; 
+
         protected override void Update(GameTime gameTime)
         {
+            currState = Keyboard.GetState();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            player.move(currState, prevState);
+            player.checkState();
 
+            //Save our kbstate
+            prevState = currState;
+
+          
+            /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
+            {
+                world.movePlatforms(5);
+            }*/
             base.Update(gameTime);
         }
 
@@ -81,10 +107,16 @@ namespace Leap_of_Faith
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            player.display(spriteBatch);
+            foreach (Platform p in world.getPlatforms())
+            {
+                spriteBatch.Draw(p.Texture, p.Bounds, Color.Black);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
