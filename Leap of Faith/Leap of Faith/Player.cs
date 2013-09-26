@@ -21,8 +21,9 @@ namespace Leap_of_Faith
         Vector2 velocity;
         GraphicsDeviceManager graphic;
         private World world; 
-        float gravity = 0.18f;
-        float speed = 4f;
+        float gravity = 0.25f;
+        float ySpeed = 5f;
+        float xSpeed = 4f;
         int screenWidth;
         int screenHeight;
 
@@ -54,8 +55,8 @@ namespace Leap_of_Faith
             graphic = gdm;
             screenWidth = gdm.PreferredBackBufferWidth;
             screenHeight = gdm.PreferredBackBufferHeight;
-            position = new Vector2(screenWidth / 2, screenHeight / 2);
-            body = new Rectangle((int)position.X, (int)position.Y, screenWidth, screenHeight);
+            position = new Vector2(150, 50);
+            body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             texture = pTexture;
             velocity = new Vector2(0, 0);
             world = w; 
@@ -94,28 +95,28 @@ namespace Leap_of_Faith
             if (kbState.IsKeyDown(Keys.Left))
             {
                 //Move left as long as there is room
-                if (position.X > 0 + speed)
+                if (position.X > 0 + xSpeed)
                 {
                     hState = HorizontalState.walkingLeft;
 
                     //Move the player to the left 
-                    velocity.X = -1 * speed;
+                    velocity.X = -1 * xSpeed;
                 }
             }
 
             if (kbState.IsKeyDown(Keys.Right))
             {
                 //Move right as long as there is room
-                if (position.X < ((float)screenWidth - speed)/2 - texture.Width / 2)
+                if (position.X < ((float)screenWidth - xSpeed)/2 - texture.Width / 2)
                 {
                     hState = HorizontalState.walkingRight;
 
                     //Move the player to the right
-                    velocity.X = speed;
+                    velocity.X = xSpeed;
                 }
                 else
                 {
-                    world.movePlatforms((int)speed);
+                    world.movePlatforms((int)xSpeed);
                 }
             }
 
@@ -124,7 +125,41 @@ namespace Leap_of_Faith
             {
                 //Set our new player state
                 vState = VerticalState.jumping;
-                velocity.Y = -2 * speed;
+                velocity.Y = -2 * ySpeed;
+            }
+
+            //Check for collision detection
+            if(vState == VerticalState.falling)
+            {
+                foreach (Platform p in world.getPlatforms())
+                {
+                    if (body.Intersects(p.Bounds))
+                    {
+                        // && (position.X > p.Bounds.Left - 50 *.75) && (position.X < p.Bounds.Right - 50 * .75)
+                        if (position.Y + 50 < p.Bounds.Top + 18)
+                        {
+                            position.Y = p.Bounds.Top - 49;
+                            vState = VerticalState.none;
+                            velocity.Y = 0;
+                        }
+                    }
+                }
+            }
+            if (vState == VerticalState.none)
+            {
+                bool isColliding = false;
+                foreach (Platform p in world.getPlatforms())
+                {
+                    if (body.Intersects(p.Bounds))
+                    {
+                        isColliding = true;
+                    }
+                }
+
+                if (!isColliding)
+                {
+                    vState = VerticalState.falling;
+                }
             }
 
             //Check to see if our player is standing on anything
@@ -138,6 +173,9 @@ namespace Leap_of_Faith
             //Add our velocity to our position vector
             position.X += velocity.X;
             position.Y += velocity.Y;
+
+            body.X = (int)position.X;
+            body.Y = (int)position.Y;
         } 
   
         /// <summary>
