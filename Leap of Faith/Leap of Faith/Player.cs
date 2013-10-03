@@ -213,5 +213,11 @@ namespace Leap_of_Faith
 
             }
         }
+
+        public Vector2 Location
+        {
+            get { return this.position; }
+            set { this.position = value; }
+        }
     }
 }

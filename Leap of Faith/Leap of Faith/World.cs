@@ -14,6 +14,8 @@ namespace Leap_of_Faith
 {
     partial class World
     {
+        public double sizeFactor = 12;
+
         public World(GraphicsDeviceManager graphics)
         {
             this.graphics = graphics; 

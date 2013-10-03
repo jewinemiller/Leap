@@ -19,12 +19,15 @@ namespace Leap_of_Faith
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D playerTexture;
-
+        Texture2D playerTexture, lightmask, background;
+        Effect lightEffect;
+        RenderTarget2D scene, mask;
         //Make a player
         Player player;
 
         World world;
+
+        double sizeFactor;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +44,7 @@ namespace Leap_of_Faith
         {
             // TODO: Add your initialization logic here
             world = new World(graphics);
+            sizeFactor = world.sizeFactor; 
             base.Initialize();
         }
 
@@ -59,7 +63,14 @@ namespace Leap_of_Faith
             player = new Player(playerTexture, graphics, world);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
+
+            var param = graphics.GraphicsDevice.PresentationParameters;
+            scene = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
+            mask = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
+
+            lightmask = Content.Load<Texture2D>("lightmask");
+            lightEffect = Content.Load<Effect>("lighting");
+            background = Content.Load<Texture2D>("background");
         }
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace Leap_of_Faith
 
             //Save our kbstate
             prevState = currState;
-
+            sizeFactor = world.sizeFactor; 
           
             /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
             {
@@ -109,7 +120,23 @@ namespace Leap_of_Faith
         {
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
+            DrawScene(graphics.GraphicsDevice);
+            DrawEffects(graphics.GraphicsDevice);
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            lightEffect.Parameters["lightMask"].SetValue(mask);
+            lightEffect.CurrentTechnique.Passes[0].Apply();
+            spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void DrawScene(GraphicsDevice device)
+        {
+            device.SetRenderTarget(scene);
+            device.Clear(Color.White);
+
             spriteBatch.Begin();
             player.display(spriteBatch);
             foreach (Platform p in world.getPlatforms())
@@ -117,7 +144,28 @@ namespace Leap_of_Faith
                 spriteBatch.Draw(p.Texture, p.Bounds, Color.Black);
             }
             spriteBatch.End();
-            base.Draw(gameTime);
+        }
+
+
+        private void DrawEffects(GraphicsDevice device)
+        {
+            double offset = (lightmask.Width / 2) * sizeFactor;
+            device.SetRenderTarget(mask);
+            device.Clear(Color.Black);
+
+            // Create a Black Background
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Vector2(0, 0), new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.Location.X - offset + playerTexture.Width / 2), Convert.ToInt32(player.Location.Y - offset + playerTexture.Height / 2),
+                Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
+            spriteBatch.End();
+
+           
+            device.SetRenderTarget(null);
         }
     }
 }

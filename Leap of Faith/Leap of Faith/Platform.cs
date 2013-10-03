@@ -43,6 +43,10 @@ namespace Leap_of_Faith
                         break;
                     }
                 }
+                if (sizeFactor > 1.5)
+                {
+                    sizeFactor -= .01;
+                }
            
         }
 
