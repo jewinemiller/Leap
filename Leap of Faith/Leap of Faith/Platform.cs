@@ -45,7 +45,28 @@ namespace Leap_of_Faith
                 }
                 if (sizeFactor > 1.5)
                 {
-                    sizeFactor -= .01;
+                    if (sizeFactor > 3)
+                    {
+                        if (sizeFactor > 6)
+                        {
+                            if (sizeFactor < 9)
+                            {
+                                sizeFactor -= .03;
+                            }
+                            else
+                            {
+                                sizeFactor -= .01;
+                            }
+                        }
+                        else
+                        {
+                            sizeFactor -= .0025;
+                        }
+                    }
+                    else
+                    {
+                        sizeFactor -= .0015;
+                    }
                 }
            
         }
