@@ -38,9 +38,17 @@ namespace Leap_of_Faith
                     //If the platform is off the screen, generate a new one. 
                     if (p.Bounds.X + p.Bounds.Width <= 0)
                     {
-                       
                         regenPlatform(p);
                         break;
+                    }
+
+                    if (p is FallingPlatform)
+                    {
+                        if ((p as FallingPlatform).checkPlayerCollision(this.player))
+                        {
+                            regenPlatform(p);
+                            break;
+                        }
                     }
                 }
                 if (sizeFactor > 1.5)
@@ -97,6 +105,12 @@ namespace Leap_of_Faith
           
             //Set the bounds of the new platform
             p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
+
+            int isFalling = rand.Next(100);
+            if (isFalling <= 5)
+            {
+                p = new FallingPlatform(p.Bounds, p.Texture);
+            }
             //Add the new platform to the screen
             platforms.Add(p);
         }

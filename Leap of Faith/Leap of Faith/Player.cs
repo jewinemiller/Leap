@@ -12,6 +12,15 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Leap_of_Faith
 {
+    partial class World
+    {
+        private Player player;
+        public Player Player
+        {
+            get { return player; }
+            set { player = value; }
+        }
+    }
     class Player
     {
         //Variables
@@ -28,7 +37,7 @@ namespace Leap_of_Faith
         int screenHeight;
 
         //Player states
-        enum VerticalState
+        public enum VerticalState
         {
             falling,
             jumping,
@@ -59,7 +68,8 @@ namespace Leap_of_Faith
             body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             texture = pTexture;
             velocity = new Vector2(0, 0);
-            world = w; 
+            world = w;
+            world.Player = this; 
             //Set the player state
             hState = HorizontalState.standing;
         }
@@ -219,5 +229,12 @@ namespace Leap_of_Faith
             get { return this.position; }
             set { this.position = value; }
         }
+
+        public VerticalState VState
+        {
+            get { return this.vState; }
+            set { vState = value; }
+        }
+      
     }
 }
