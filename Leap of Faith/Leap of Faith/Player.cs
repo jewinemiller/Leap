@@ -36,6 +36,11 @@ namespace Leap_of_Faith
         int screenWidth;
         int screenHeight;
 
+        //Torches stuff
+        Texture2D flameTexture;
+        Torch[] torches;
+        int currTorch = 0;
+
         //Player states
         public enum VerticalState
         {
@@ -58,7 +63,7 @@ namespace Leap_of_Faith
         /// </summary>
         /// <param name="pTexture">The texture that the player will use</param>
         /// <param name="g">The GraphicsDeviceManager that will be used</param>
-        public Player(Texture2D pTexture, GraphicsDeviceManager gdm, World w)
+        public Player(Texture2D pTexture, GraphicsDeviceManager gdm, World w, Texture2D fTexture)
         {
             //Load the texture and set the vectors
             graphic = gdm;
@@ -67,11 +72,19 @@ namespace Leap_of_Faith
             position = new Vector2(150, 50);
             body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             texture = pTexture;
+            flameTexture = fTexture;
             velocity = new Vector2(0, 0);
             world = w;
             world.Player = this; 
             //Set the player state
             hState = HorizontalState.standing;
+
+            //Make an array of three torches
+            torches = new Torch[3];
+            for (int i = 0; i < torches.Length; i++)
+            {
+                torches[i] = new Torch(this, fTexture);
+            }
         }
 
         /// <summary>
@@ -82,6 +95,12 @@ namespace Leap_of_Faith
         {
             //Display the player
             s.Draw(texture, position, Color.White);
+
+            //Draw torches, if any
+            for (int i = 0; i < torches.Length; i++)
+            {
+                torches[i].display(s);
+            }
         }
 
         /// <summary>
@@ -186,6 +205,15 @@ namespace Leap_of_Faith
 
             body.X = (int)position.X;
             body.Y = (int)position.Y;
+
+            //Check to see if player is throwing torches
+            throwTorches(kbState, prevState);
+
+            //Update all torches, if any
+            for (int i = 0; i < torches.Length; i++)
+            {
+                torches[i].update();
+            }
         } 
   
         /// <summary>
@@ -234,6 +262,16 @@ namespace Leap_of_Faith
         {
             get { return this.vState; }
             set { vState = value; }
+        }
+
+        //Throw torches
+        public void throwTorches(KeyboardState currState, KeyboardState prevState)
+        {
+            if (currState.IsKeyDown(Keys.F) && prevState.IsKeyUp(Keys.F) && currTorch < torches.Length)
+            {
+                torches[currTorch].throwTorch();
+                currTorch++;
+            }
         }
       
     }

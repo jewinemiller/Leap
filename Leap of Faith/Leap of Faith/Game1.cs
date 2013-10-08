@@ -28,6 +28,10 @@ namespace Leap_of_Faith
         World world;
 
         double sizeFactor;
+
+        //Torches
+        Texture2D flameTexture;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -54,13 +58,18 @@ namespace Leap_of_Faith
         /// </summary>
         protected override void LoadContent()
         {
+            lightmask = Content.Load<Texture2D>("lightmask");
+            lightEffect = Content.Load<Effect>("lighting");
+            background = Content.Load<Texture2D>("background");
+            flameTexture = Content.Load<Texture2D>("torch");
+
             world.addPlatform(new Rectangle(100, 100, 150, 25),Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"));
 
             playerTexture = Content.Load<Texture2D>("dude");
-            player = new Player(playerTexture, graphics, world);
+            player = new Player(playerTexture, graphics, world, flameTexture);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -68,9 +77,7 @@ namespace Leap_of_Faith
             scene = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
             mask = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
 
-            lightmask = Content.Load<Texture2D>("lightmask");
-            lightEffect = Content.Load<Effect>("lighting");
-            background = Content.Load<Texture2D>("background");
+
         }
 
         /// <summary>
