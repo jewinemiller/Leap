@@ -83,7 +83,7 @@ namespace Leap_of_Faith
             torches = new Torch[3];
             for (int i = 0; i < torches.Length; i++)
             {
-                torches[i] = new Torch(this, fTexture);
+                torches[i] = new Torch(this, fTexture, w);
             }
         }
 
@@ -111,8 +111,8 @@ namespace Leap_of_Faith
         public void move(KeyboardState kbState, KeyboardState prevState)
         {
             //Print out debugging info
-            Console.WriteLine("VSTATE: " + vState);
-            Console.WriteLine("HSTATE: " + hState);
+            //Console.WriteLine("VSTATE: " + vState);
+            //Console.WriteLine("HSTATE: " + hState);
             //Console.WriteLine("POSITION: " + " ( " + position.X + ", " + position.Y + " ) ");
             //Console.WriteLine("VELOCITY: " + " ( " + velocity.X + ", " + velocity.Y + " ) ");
 
@@ -146,6 +146,13 @@ namespace Leap_of_Faith
                 else
                 {
                     world.movePlatforms((int)xSpeed);
+                    for (int i = 0; i < torches.Length; i++)
+                    {
+                        if (torches[i].Falling == false)
+                        {
+                            torches[i].Location = new Vector2(torches[i].Location.X - xSpeed, torches[i].Location.Y);
+                        }
+                    }
                 }
             }
 
@@ -262,6 +269,25 @@ namespace Leap_of_Faith
         {
             get { return this.vState; }
             set { vState = value; }
+        }
+
+        public int NumTorches
+        {
+            get { return torches.Length; }
+        }
+
+        public Torch getTorch(int index)
+        {
+            if (index < torches.Length)
+                return torches[index];
+            else
+                return null;
+        }
+
+        public float XSpeed
+        {
+            get { return xSpeed; }
+            set { xSpeed = value; }
         }
 
         //Throw torches

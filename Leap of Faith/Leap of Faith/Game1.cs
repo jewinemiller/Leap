@@ -167,8 +167,20 @@ namespace Leap_of_Faith
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
+            //Draw mask around the player
             spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.Location.X - offset + playerTexture.Width / 2), Convert.ToInt32(player.Location.Y - offset + playerTexture.Height / 2),
                 Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
+
+            //Draw mask around torch
+           /* for (int i = 0; i < player.NumTorches; i++)
+            {
+                if (player.getTorch(i).IsThrown == true)
+                {
+                    sizeFactor = 2;
+                    spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.getTorch(i).Location.X + flameTexture.Width / 2), Convert.ToInt32(player.getTorch(i).Location.Y + flameTexture.Height / 2),
+                    Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
+                }
+            }*/
             spriteBatch.End();
 
            

@@ -22,12 +22,14 @@ namespace Leap_of_Faith
         float xSpeed = 5f;
         float ySpeed = 5f;
         float burnTime;
+        Boolean falling = false;
 
         Rectangle bounds;
         Texture2D flame;
+        World world;
 
         //Constructor
-        public Torch(Player p, Texture2D f)
+        public Torch(Player p, Texture2D f, World w)
         {
             player = p;
 
@@ -35,6 +37,8 @@ namespace Leap_of_Faith
             velocity = new Vector2(0, 0);
             bounds = new Rectangle((int)position.X, (int)position.Y, 20, 20);
             flame = f;
+
+            world = w;
         }
 
         //Draw the torch
@@ -49,10 +53,23 @@ namespace Leap_of_Faith
         //Update
         public void update()
         {
-            if (isThrown)
+            if (isThrown & falling)
             {
                 if (burnTime > 0)
                 {
+                    foreach (Platform p in world.getPlatforms())
+                    {
+                        if (bounds.Intersects(p.Bounds))
+                        {
+                            if (position.Y + 20 < p.Bounds.Top + 18)
+                            {
+                                position.Y = p.Bounds.Top - 19;
+                                velocity.Y = 0;
+                                falling = false;
+                            }
+                        }
+                    }
+
                     velocity.X = xSpeed;
                     velocity.Y += gravity;
 
@@ -67,6 +84,7 @@ namespace Leap_of_Faith
                 else
                 {
                     isThrown = false;
+                    falling = false;
                 }
             }
             else
@@ -79,6 +97,7 @@ namespace Leap_of_Faith
         public void throwTorch()
         {
             isThrown = true;
+            falling = true;
             velocity.Y = -1 * ySpeed;
             burnTime = 500;
         }
@@ -89,6 +108,12 @@ namespace Leap_of_Faith
         {
             get { return isThrown; }
             set { isThrown = value; }
+        }
+
+        public Boolean Falling
+        {
+            get { return falling; }
+            set { falling = value; }
         }
 
         public Vector2 Location
