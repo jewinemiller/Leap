@@ -127,5 +127,11 @@ namespace Leap_of_Faith
             get { return burnTime; }
             set { burnTime = value; }
         }
+
+        public void subtractX(float newX)
+        {
+            //position.X -= newX;
+            bounds.Offset((int)-newX, 0);
+        }
     }
 }

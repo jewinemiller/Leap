@@ -38,7 +38,7 @@ namespace Leap_of_Faith
 
         //Torches stuff
         Texture2D flameTexture;
-        Torch[] torches;
+        public Torch[] torches;
         int currTorch = 0;
 
         //Player states

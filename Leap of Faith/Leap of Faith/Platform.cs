@@ -52,6 +52,12 @@ namespace Leap_of_Faith
         //Move a platform by x Distance
         public void movePlatforms(int distX)
         {
+            //Move torches
+            foreach (Torch t in player.torches)
+            {
+                t.subtractX(distX);
+            }
+
             //Loop through the platforms
         
                 foreach (Platform p in platforms)
