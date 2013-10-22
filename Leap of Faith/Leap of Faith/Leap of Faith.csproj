@@ -108,6 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FallingPlatform.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\Menu.cs" />
+    <Compile Include="Menus\MenuItems\Button.cs" />
+    <Compile Include="Menus\MenuItems\Label.cs" />
+    <Compile Include="Menus\MenuItems\MenuItem.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

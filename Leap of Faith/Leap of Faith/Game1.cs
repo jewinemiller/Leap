@@ -19,14 +19,14 @@ namespace Leap_of_Faith
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D playerTexture, lightmask, background;
+        Texture2D playerTexture, lightmask, background, cursor;
         Effect lightEffect;
         RenderTarget2D scene, mask;
         //Make a player
         Player player;
 
         World world;
-
+        MainMenu menu;
         double sizeFactor;
 
         //Torches
@@ -62,6 +62,7 @@ namespace Leap_of_Faith
             lightEffect = Content.Load<Effect>("lighting");
             background = Content.Load<Texture2D>("background");
             flameTexture = Content.Load<Texture2D>("torch");
+            cursor = Content.Load<Texture2D>("cursor");
 
             world.addPlatform(new Rectangle(100, 100, 150, 25),Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"));
@@ -77,7 +78,7 @@ namespace Leap_of_Faith
             scene = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
             mask = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
 
-
+            menu = new MainMenu(Content, new Rectangle(0,0,graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
         }
 
         /// <summary>
@@ -96,28 +97,40 @@ namespace Leap_of_Faith
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
 
-        KeyboardState prevState, currState; 
+        KeyboardState prevState, currState;
+        MouseState currMouse, prevMouse;
+        Vector2 mouseLoc; 
 
         protected override void Update(GameTime gameTime)
         {
-            currState = Keyboard.GetState();
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            player.move(currState, prevState);
-            player.checkState();
-
-            //Save our kbstate
-            prevState = currState;
-            sizeFactor = world.sizeFactor;
-
-            world.checkFallingPlatforms(3);
-          
-            /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
+            if (!menu.isActive)
             {
-                world.movePlatforms(5);
-            }*/
+                currState = Keyboard.GetState();
+                // Allows the game to exit
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    this.Exit();
+
+                player.move(currState, prevState);
+                player.checkState();
+
+                //Save our kbstate
+                prevState = currState;
+                sizeFactor = world.sizeFactor;
+
+                world.checkFallingPlatforms(3);
+
+                /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
+                {
+                    world.movePlatforms(5);
+                }*/
+            }
+            else
+            {
+                currMouse = Mouse.GetState();
+                mouseLoc = new Vector2(currMouse.X, currMouse.Y);
+                menu.Update(gameTime);
+                prevMouse = currMouse; 
+            }
             base.Update(gameTime);
         }
 
@@ -128,21 +141,30 @@ namespace Leap_of_Faith
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
+            if (!menu.isActive)
+            {
+                DrawScene(graphics.GraphicsDevice);
+                DrawEffects(graphics.GraphicsDevice);
 
-            DrawScene(graphics.GraphicsDevice);
-            DrawEffects(graphics.GraphicsDevice);
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            lightEffect.Parameters["lightMask"].SetValue(mask);
-            lightEffect.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
-            spriteBatch.End();
-
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                lightEffect.Parameters["lightMask"].SetValue(mask);
+                lightEffect.CurrentTechnique.Passes[0].Apply();
+                spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
+                spriteBatch.End();
+            }
+            else
+            {
+                spriteBatch.Begin();
+                menu.draw(spriteBatch, null);
+                spriteBatch.Draw(cursor, mouseLoc, Color.Black);
+                spriteBatch.End();
+            }
             base.Draw(gameTime);
         }
 
         private void DrawScene(GraphicsDevice device)
         {
+            
             device.SetRenderTarget(scene);
             device.Clear(Color.White);
 
@@ -174,13 +196,13 @@ namespace Leap_of_Faith
                 Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
 
             //Draw mask around torch
-           /* for (int i = 0; i < player.NumTorches; i++)
+            /*for (int i = 0; i < player.NumTorches; i++)
             {
                 if (player.getTorch(i).IsThrown == true)
                 {
-                    sizeFactor = 2;
-                    spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.getTorch(i).Location.X + flameTexture.Width / 2), Convert.ToInt32(player.getTorch(i).Location.Y + flameTexture.Height / 2),
-                    Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
+                    
+                    spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.getTorch(i).Location.X - flameTexture.Width / 2), Convert.ToInt32(player.getTorch(i).Location.Y - flameTexture.Height / 2),
+                    Convert.ToInt32(lightmask.Width * 1.25), Convert.ToInt32(lightmask.Height * 1.25)), Color.White);
                 }
             }*/
             spriteBatch.End();
