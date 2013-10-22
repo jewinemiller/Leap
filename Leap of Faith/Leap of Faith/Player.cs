@@ -153,6 +153,8 @@ namespace Leap_of_Faith
                             torches[i].Location = new Vector2(torches[i].Location.X - xSpeed, torches[i].Location.Y);
                         }
                     }
+
+                    hState = HorizontalState.walkingRight;
                 }
             }
 
@@ -251,11 +253,11 @@ namespace Leap_of_Faith
             }
             else if (hState == HorizontalState.walkingLeft)
             {
-
+                vState = VerticalState.none;
             }
             else if(hState == HorizontalState.walkingRight)
             {
-
+                vState = VerticalState.none;
             }
         }
 
@@ -288,6 +290,12 @@ namespace Leap_of_Faith
         {
             get { return xSpeed; }
             set { xSpeed = value; }
+        }
+
+        public Rectangle Body
+        {
+            get { return body; }
+            set { body = value; }
         }
 
         //Throw torches

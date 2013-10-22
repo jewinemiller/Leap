@@ -26,6 +26,29 @@ namespace Leap_of_Faith
             platforms.Add(new Platform(bounds, texture));
         }
 
+        public void checkFallingPlatforms(int dist)
+        {
+            foreach (Platform p in platforms)
+            {
+                if (p is FallingPlatform)
+                {
+                    if ((p as FallingPlatform).checkPlayerCollision(this.player))
+                    {
+                        if ((p as FallingPlatform).isAboveGround())
+                        {
+                                (p as FallingPlatform).dropPlatform(dist);
+                                player.Location = new Vector2(player.Location.X, player.Location.Y + dist);
+                        }
+                        else
+                        {
+                            regenPlatform(p);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         //Move a platform by x Distance
         public void movePlatforms(int distX)
         {
@@ -42,14 +65,21 @@ namespace Leap_of_Faith
                         break;
                     }
 
-                    if (p is FallingPlatform)
+                   /* if (p is FallingPlatform)
                     {
                         if ((p as FallingPlatform).checkPlayerCollision(this.player))
                         {
-                            regenPlatform(p);
-                            break;
+                            if ((p as FallingPlatform).isAboveGround())
+                            {
+                                (p as FallingPlatform).dropPlatform(1);
+                            }
+                            else
+                            {
+                                regenPlatform(p);
+                                break;
+                            }
                         }
-                    }
+                    }*/
                 }
                 if (sizeFactor > 1.5)
                 {
@@ -152,7 +182,5 @@ namespace Leap_of_Faith
         {
             bounds = new Rectangle(0, 0, 10, 10);
         }
-
-        
     }
 }

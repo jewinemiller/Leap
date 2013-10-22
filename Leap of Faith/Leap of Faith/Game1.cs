@@ -110,7 +110,9 @@ namespace Leap_of_Faith
 
             //Save our kbstate
             prevState = currState;
-            sizeFactor = world.sizeFactor; 
+            sizeFactor = world.sizeFactor;
+
+            world.checkFallingPlatforms(3);
           
             /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
             {
