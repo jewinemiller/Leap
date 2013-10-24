@@ -121,7 +121,7 @@ namespace Leap_of_Faith
             hState = HorizontalState.standing;
 
             //Check key presses to move player
-            if (kbState.IsKeyDown(Keys.Left))
+            if (kbState.IsKeyDown(Keys.Left) && kbState.IsKeyUp(Keys.Right))
             {
                 //Move left as long as there is room
                 if (position.X > 0 + xSpeed)
@@ -133,7 +133,7 @@ namespace Leap_of_Faith
                 }
             }
 
-            if (kbState.IsKeyDown(Keys.Right))
+            if (kbState.IsKeyDown(Keys.Right) && kbState.IsKeyUp(Keys.Left))
             {
                 //Move right as long as there is room
                 if (position.X < ((float)screenWidth - xSpeed)/2 - texture.Width / 2)
@@ -164,6 +164,11 @@ namespace Leap_of_Faith
                 //Set our new player state
                 vState = VerticalState.jumping;
                 velocity.Y = -2 * ySpeed;
+            }
+            else if (kbState.IsKeyUp(Keys.Up) && prevState.IsKeyDown(Keys.Up) && vState == VerticalState.jumping)
+            {
+                vState = VerticalState.falling;
+                velocity.Y = -0.50f * velocity.Y;
             }
 
             //Check for collision detection
