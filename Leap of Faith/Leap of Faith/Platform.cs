@@ -34,6 +34,8 @@ namespace Leap_of_Faith
                 {
                     if ((p as FallingPlatform).checkPlayerCollision(this.player))
                     {
+                        player.currentPlatform = p;
+
                         if ((p as FallingPlatform).isAboveGround())
                         {
                                 (p as FallingPlatform).dropPlatform(dist);

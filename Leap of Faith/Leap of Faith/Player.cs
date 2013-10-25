@@ -41,10 +41,14 @@ namespace Leap_of_Faith
         public Torch[] torches;
         int currTorch = 0;
 
+        // Platform player is currently on.
+        public Platform currentPlatform = null;
+
         //Player states
         public enum VerticalState
         {
             falling,
+            fallingPlatform,
             jumping,
             none
         }
@@ -158,15 +162,19 @@ namespace Leap_of_Faith
                 }
             }
 
-            //Have the player jump
-            if (kbState.IsKeyDown(Keys.Up) && prevState.IsKeyUp(Keys.Up) && vState == VerticalState.none)
+            // Jumping/Falling
+            if (kbState.IsKeyDown(Keys.Up)) // If the player is currently pressing up.
             {
-                //Set our new player state
-                vState = VerticalState.jumping;
-                velocity.Y = -2 * ySpeed;
+                if (vState == VerticalState.none || vState == VerticalState.fallingPlatform) // If the player's veritcal state is none (not falling or jumping) or the player is on a Falling Platform.
+                {
+                    currentPlatform = null;
+                    vState = VerticalState.jumping;
+                    velocity.Y = -2 * ySpeed;
+                }
             }
-            else if (kbState.IsKeyUp(Keys.Up) && prevState.IsKeyDown(Keys.Up) && vState == VerticalState.jumping)
+            else if (vState == VerticalState.jumping) // If the player is currently not pressing up and is jumping.
             {
+                // Stop the jump.
                 vState = VerticalState.falling;
                 velocity.Y = -0.50f * velocity.Y;
             }
@@ -184,6 +192,8 @@ namespace Leap_of_Faith
                             position.Y = p.Bounds.Top - 49;
                             vState = VerticalState.none;
                             velocity.Y = 0;
+
+                            currentPlatform = p;
                         }
                     }
                 }
@@ -202,15 +212,26 @@ namespace Leap_of_Faith
                 if (!isColliding)
                 {
                     vState = VerticalState.falling;
+                    currentPlatform = null;
+                }
+            }
+            if (vState == VerticalState.fallingPlatform) // Check to see if the player is still on the platform horizontally.
+            {
+                if (position.X + 50 < currentPlatform.Bounds.Left || position.X > currentPlatform.Bounds.Right)
+                {
+                    vState = VerticalState.falling;
+                    currentPlatform = null;
                 }
             }
 
-            //Check to see if our player is standing on anything
-            if (position.Y >= screenHeight - 50 && vState == VerticalState.falling)
+            if (position.Y >= screenHeight - 50) // If the player is at the bottom of the screen.
             {
-                position.Y = screenHeight - 50;
-                vState = VerticalState.none;
-                velocity.Y = 0;
+                if (vState == VerticalState.falling || vState == VerticalState.fallingPlatform) // If the player's vertical state is falling or fallingPlatform.
+                {
+                    position.Y = screenHeight - 50;
+                    vState = VerticalState.none;
+                    velocity.Y = 0;
+                }
             }
 
             //Add our velocity to our position vector
