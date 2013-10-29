@@ -83,14 +83,16 @@ namespace Leap_of_Faith
                 }
                 else
                 {
-                    isThrown = false;
+                    //isThrown = false;
                     falling = false;
                 }
             }
-            else
+
+            if (!isThrown)
             {
-                position = player.Location;
+                this.position = player.Location;
             }
+          
         }
 
         //Throw the torch

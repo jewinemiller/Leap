@@ -84,7 +84,7 @@ namespace Leap_of_Faith
             hState = HorizontalState.standing;
 
             //Make an array of three torches
-            torches = new Torch[3];
+            torches = new Torch[999];
             for (int i = 0; i < torches.Length; i++)
             {
                 torches[i] = new Torch(this, fTexture, w);

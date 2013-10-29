@@ -14,8 +14,11 @@ namespace Leap_of_Faith
 {
     partial class World
     {
+        private const int CHECKPOINT_DISTANCE = 10000; 
+
         public double sizeFactor = 12;
-        
+        private int distTraveled = 0;
+      
         public World(GraphicsDeviceManager graphics)
         {
             this.graphics = graphics; 

@@ -54,6 +54,12 @@ namespace Leap_of_Faith
         //Move a platform by x Distance
         public void movePlatforms(int distX)
         {
+            this.distTraveled += distX;
+            if (distTraveled >= CHECKPOINT_DISTANCE)
+            {
+                sizeFactor = 5;
+                distTraveled = 0;
+            }
             //Move torches
             foreach (Torch t in player.torches)
             {
