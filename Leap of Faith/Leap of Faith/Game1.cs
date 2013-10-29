@@ -32,6 +32,11 @@ namespace Leap_of_Faith
         //Torches
         Texture2D flameTexture;
 
+        //Powerups
+        Texture2D torchTexture;
+        Vector2 torchPowerupPos;
+        Powerup torchPowerup;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -64,7 +69,7 @@ namespace Leap_of_Faith
             flameTexture = Content.Load<Texture2D>("torch");
             cursor = Content.Load<Texture2D>("cursor");
 
-            world.addPlatform(new Rectangle(100, 100, 150, 25),Content.Load<Texture2D>("Platform"));
+            world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"));
             world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"));
@@ -78,7 +83,12 @@ namespace Leap_of_Faith
             scene = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
             mask = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
 
-            menu = new MainMenu(Content, new Rectangle(0,0,graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+            menu = new MainMenu(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+
+            //Powerups
+            torchTexture = Content.Load<Texture2D>("torchTexture");
+            torchPowerupPos = new Vector2(0,0);
+            torchPowerup = new Powerup(torchTexture, torchPowerupPos, 3);
         }
 
         /// <summary>
@@ -174,6 +184,15 @@ namespace Leap_of_Faith
             {
                
                 spriteBatch.Draw(p.Texture, p.Bounds, Color.Black);
+
+                if (p.HasTorch == true)
+                {
+                    int pX = p.Bounds.X;
+                    int pY = p.Bounds.Y;
+                    int pW = p.Bounds.Width;
+                    torchPowerup.relocate(pX + pW / 2, pY - 10);
+                    torchPowerup.display(spriteBatch);
+                }
             }
             spriteBatch.End();
         }

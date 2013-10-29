@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace WindowsGame2
+namespace Leap_of_Faith
 {
     class Powerup
     {
@@ -72,6 +72,13 @@ namespace WindowsGame2
             position.Y += y;
             bounds.Offset(x, y);
             collected = false;
+        }
+
+        //Property for collected
+        public bool Collected
+        {
+            get { return collected; }
+            set { collected = value; }
         }
     }
 }

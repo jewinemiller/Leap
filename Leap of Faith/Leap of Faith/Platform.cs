@@ -155,6 +155,12 @@ namespace Leap_of_Faith
             {
                 p = new FallingPlatform(p.Bounds, p.Texture);
             }
+
+            int hasTorch = 1;
+            if (hasTorch == 1)
+            {
+                p.HasTorch = true;
+            }
             //Add the new platform to the screen
             platforms.Add(p);
         }
@@ -171,6 +177,7 @@ namespace Leap_of_Faith
         //Bounds and Texture of the Platform
         private Rectangle bounds;
         private Texture2D texture;
+        private bool hasTorch = true;
 
         //Public Properties representing the Texture and Bounds of the Platform
         public Texture2D Texture
@@ -183,6 +190,12 @@ namespace Leap_of_Faith
         {
             get{return bounds;}
             set { bounds = value; }
+        }
+
+        public bool HasTorch
+        {
+            get { return hasTorch; }
+            set { hasTorch = value; }
         }
 
         //Constructor
