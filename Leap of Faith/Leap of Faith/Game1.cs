@@ -172,6 +172,7 @@ namespace Leap_of_Faith
             player.display(spriteBatch);
             foreach (Platform p in world.getPlatforms())
             {
+               
                 spriteBatch.Draw(p.Texture, p.Bounds, Color.Black);
             }
             spriteBatch.End();
