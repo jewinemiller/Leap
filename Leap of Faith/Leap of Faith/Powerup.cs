@@ -39,6 +39,12 @@ namespace Leap_of_Faith
             numUses = uses;
         }
 
+        public Rectangle Bounds
+        {
+            get { return bounds; }
+            set { bounds = value; }
+        }
+
         //Use the powerup
         public void use(Func<int> method)
         {
@@ -66,11 +72,12 @@ namespace Leap_of_Faith
         }
 
         //Move the powerup icon when the player picks it up
-        public void relocate(int x, int y)
+        public void relocate(Platform p)
         {
-            position.X += x;
-            position.Y += y;
-            bounds.Offset(x, y);
+            position.X = p.Bounds.X;
+            position.Y = p.Bounds.Y - 50;
+
+            bounds = new Rectangle((int)position.X + p.Bounds.Width / 2 - 10, (int)position.Y, 20, 20);
             collected = false;
         }
 

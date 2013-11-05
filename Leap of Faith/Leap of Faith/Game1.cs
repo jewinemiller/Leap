@@ -205,17 +205,7 @@ namespace Leap_of_Faith
             player.display(spriteBatch);
             foreach (Platform p in world.getPlatforms())
             {
-               
-                spriteBatch.Draw(p.Texture, p.Bounds, Color.Black);
-
-                if (p.HasTorch == true)
-                {
-                    int pX = p.Bounds.X;
-                    int pY = p.Bounds.Y;
-                    int pW = p.Bounds.Width;
-                    torchPowerup.relocate(pX + pW / 2, pY - 10);
-                    torchPowerup.display(spriteBatch);
-                }
+                p.display(spriteBatch, torchPowerup);
             }
             spriteBatch.End();
         }

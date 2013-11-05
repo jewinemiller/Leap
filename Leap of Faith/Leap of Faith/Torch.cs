@@ -53,7 +53,7 @@ namespace Leap_of_Faith
         //Update
         public void update()
         {
-            if (isThrown & falling)
+            if (isThrown && falling)
             {
                 if (burnTime > 0)
                 {
