@@ -229,9 +229,7 @@ namespace Leap_of_Faith
             {
                 if (vState == VerticalState.falling || vState == VerticalState.fallingPlatform) // If the player's vertical state is falling or fallingPlatform.
                 {
-                    position.Y = screenHeight - 50;
-                    vState = VerticalState.none;
-                    velocity.Y = 0;
+                    world.reset();
                 }
             }
 
@@ -333,6 +331,22 @@ namespace Leap_of_Faith
                 torches[currTorch].throwTorch();
                 currTorch++;
             }
+        }
+
+        public void reset()
+        {
+            position = new Vector2(150, 50);
+            body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
+            velocity = new Vector2(0, 0);
+            hState = HorizontalState.standing;
+
+            //Make an array of three torches
+            torches = new Torch[999];
+            for (int i = 0; i < torches.Length; i++)
+            {
+                torches[i] = new Torch(this, flameTexture, world);
+            }
+            vState = VerticalState.none;
         }
       
     }

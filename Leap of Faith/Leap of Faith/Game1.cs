@@ -30,7 +30,7 @@ namespace Leap_of_Faith
         Player player;
 
         World world;
-        MainMenu menu;
+        Menu menu;
         double sizeFactor;
 
         //Torches
@@ -139,7 +139,10 @@ namespace Leap_of_Faith
                 // Allows the game to exit
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     this.Exit();
-
+                if (currState.IsKeyDown(Keys.Escape) && !prevState.IsKeyDown(Keys.Escape))
+                {
+                    menu = new PauseMenu(Content, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 250, 0, 500, graphics.PreferredBackBufferHeight));
+                }
                 player.move(currState, prevState);
                 player.checkState();
 
@@ -148,6 +151,8 @@ namespace Leap_of_Faith
                 sizeFactor = world.sizeFactor;
                 rects = world.bg.rects;
                 world.checkFallingPlatforms(3);
+
+                
 
                 /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
                 {
@@ -171,9 +176,7 @@ namespace Leap_of_Faith
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
-            if (!menu.isActive)
-            {
-                DrawScene(graphics.GraphicsDevice);
+                  DrawScene(graphics.GraphicsDevice);
                 DrawEffects(graphics.GraphicsDevice);
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
@@ -181,8 +184,8 @@ namespace Leap_of_Faith
                 lightEffect.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
                 spriteBatch.End();
-            }
-            else
+            
+            if(menu.isActive)
             {
                 spriteBatch.Begin();
                 menu.draw(spriteBatch, null);
