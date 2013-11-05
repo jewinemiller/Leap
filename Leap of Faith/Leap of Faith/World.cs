@@ -18,7 +18,7 @@ namespace Leap_of_Faith
 
         public double sizeFactor = 12;
         private int distTraveled = 0;
-      
+        public Background bg;
         public World(GraphicsDeviceManager graphics)
         {
             this.graphics = graphics; 

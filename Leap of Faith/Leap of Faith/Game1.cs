@@ -19,7 +19,11 @@ namespace Leap_of_Faith
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D playerTexture, lightmask, background, cursor;
+        Texture2D playerTexture, lightmask, background, bg2, bg3, cursor;
+        Texture2D[] bgs;
+        Rectangle[] rects;
+        Background backObj;
+
         Effect lightEffect;
         RenderTarget2D scene, mask;
         //Make a player
@@ -53,7 +57,9 @@ namespace Leap_of_Faith
         {
             // TODO: Add your initialization logic here
             world = new World(graphics);
-            sizeFactor = world.sizeFactor; 
+            sizeFactor = world.sizeFactor;
+            bgs = new Texture2D[3];
+            rects = new Rectangle[bgs.Length];
             base.Initialize();
         }
 
@@ -89,6 +95,20 @@ namespace Leap_of_Faith
             torchTexture = Content.Load<Texture2D>("torchTexture");
             torchPowerupPos = new Vector2(0,0);
             torchPowerup = new Powerup(torchTexture, torchPowerupPos, 3);
+
+            //bg2 = Content.Load<Texture2D>("bg2");
+            //bg3 = Content.Load<Texture2D>("bg3");
+
+            bgs[0] = background;
+            bgs[1] = background;
+            bgs[2] = background;
+
+            rects[0] = new Rectangle(0, 0, background.Width, background.Height);
+            rects[1] = new Rectangle(background.Width, 0, background.Width, background.Height);
+            rects[2] = new Rectangle(background.Width, 0, background.Width, background.Height);
+
+            backObj = new Background(rects);
+            world.bg = backObj;
         }
 
         /// <summary>
@@ -126,7 +146,7 @@ namespace Leap_of_Faith
                 //Save our kbstate
                 prevState = currState;
                 sizeFactor = world.sizeFactor;
-
+                rects = world.bg.rects;
                 world.checkFallingPlatforms(3);
 
                 /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
@@ -206,7 +226,10 @@ namespace Leap_of_Faith
 
             // Create a Black Background
             spriteBatch.Begin();
-            spriteBatch.Draw(background, new Vector2(0, 0), new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+            for (int i = 0; i < bgs.Length; i++)
+            {
+                spriteBatch.Draw(bgs[i],rects[i], Color.White);
+            }
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);

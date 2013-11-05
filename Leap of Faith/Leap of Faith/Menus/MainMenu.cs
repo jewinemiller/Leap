@@ -23,7 +23,7 @@ namespace Leap_of_Faith
         private Button play, quit;
         //ContentManager. Used to load textures
         private ContentManager content;
-        private SoundPlayer buttonClick = new SoundPlayer(@"..\..\..\Assets\Audio\ButtonSounds\button.mp3");
+        private SoundPlayer buttonClick = new SoundPlayer(@"..\..\..\Assets\Audio\Button Sounds\button.mp3");
 
         /// <summary>
         /// Constructor
@@ -59,12 +59,12 @@ namespace Leap_of_Faith
             //If the button is play, start the game
             if(item.Equals(play)){
                 (play as Button).act(startGame);
-                buttonClick.Play();
+               // buttonClick.Play();
             }
                 //Otherwise, if the button is quit, exit the game
             else if(item.Equals(quit)){
                 (quit as Button).act(exit);
-                buttonClick.Play();
+               // buttonClick.Play();
             }
            
         }

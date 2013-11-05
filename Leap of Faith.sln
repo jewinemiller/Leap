@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leap of Faith", "Leap of Faith\Leap of Faith\Leap of Faith.csproj", "{62F0087F-9F41-45A5-AD0F-4CA5AF361801}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Leap of FaithContent", "Leap of Faith\Leap of FaithContent\Leap of FaithContent.contentproj", "{3F483DDD-2B0C-4D7C-A8D2-985259AD33D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leap of FaithContent", "Leap of Faith\Leap of FaithContent\Leap of FaithContent.contentproj", "{3F483DDD-2B0C-4D7C-A8D2-985259AD33D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
