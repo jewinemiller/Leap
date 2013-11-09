@@ -18,7 +18,15 @@ namespace Leap_of_Faith
         //The platforms that the world controls
         private List<Platform> platforms = new List<Platform>();
         //Graphics Device Manager
-        private GraphicsDeviceManager graphics; 
+        private GraphicsDeviceManager graphics;
+
+        public void checkForTorches(Player player, Powerup power)
+        {
+            foreach (Platform p in platforms)
+            {
+                p.isPlayerCollecting(power, player);
+            }
+        }
 
         //Add a platform to the list
         public void addPlatform(Rectangle bounds, Texture2D texture)
@@ -156,7 +164,9 @@ namespace Leap_of_Faith
                 p = new FallingPlatform(p.Bounds, p.Texture);
             }
 
-            int hasTorch = rand.Next(10);
+            int hasTorch = rand.Next(20);
+            //int hasTorch = 1;
+            p.HasTorch = false;
             if (hasTorch == 1)
             {
                 p.HasTorch = true;
@@ -176,6 +186,7 @@ namespace Leap_of_Faith
     {
         //Bounds and Texture of the Platform
         private Rectangle bounds;
+        private Rectangle torchBounds;
         private Texture2D texture;
         private bool hasTorch = false;
 
@@ -202,12 +213,15 @@ namespace Leap_of_Faith
         public Platform(Rectangle rect, Texture2D tex)
         {
             bounds = rect;
-            texture = tex; 
+            texture = tex;
+
+            torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
         }
         //Empty Constructor.
         public Platform()
         {
             bounds = new Rectangle(0, 0, 10, 10);
+            torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
         }
 
         public void display(SpriteBatch s, Powerup torch)
@@ -218,6 +232,19 @@ namespace Leap_of_Faith
             {
                 torch.relocate(this);
                 torch.display(s);
+            }
+        }
+
+        public void isPlayerCollecting(Powerup powerup, Player player)
+        {
+            if (this.hasTorch == true)
+            {
+                torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
+                if (player.Body.Intersects(torchBounds))
+                {
+                    this.hasTorch = false;
+                    powerup.pickup();
+                }
             }
         }
     }

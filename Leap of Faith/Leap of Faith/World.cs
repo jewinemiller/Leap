@@ -24,9 +24,9 @@ namespace Leap_of_Faith
             this.graphics = graphics; 
         }
 
-        public void reset()
+        public void reset(Powerup p)
         {
-            player.reset();
+            player.reset(p);
             sizeFactor = 12;
             distTraveled = 0;
             Texture2D tempTex = platforms[0].Texture;

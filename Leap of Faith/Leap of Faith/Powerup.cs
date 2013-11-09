@@ -46,15 +46,22 @@ namespace Leap_of_Faith
         }
 
         //Use the powerup
-        public void use(Func<int> method)
+        public void use()
         {
             if (numUses > 0)
             {
                 numUses--;
-
-                //WHATEVER EFFECT THE POWERUP HAS WILL BE USED HERE
-                method();
             }
+        }
+
+        public float getUses()
+        {
+            return numUses;
+        }
+
+        public void setUses(float u)
+        {
+            numUses = u;
         }
 
         //Pick up another one

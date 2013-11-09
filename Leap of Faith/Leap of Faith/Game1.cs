@@ -143,16 +143,16 @@ namespace Leap_of_Faith
                 {
                     menu = new PauseMenu(Content, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 250, 0, 500, graphics.PreferredBackBufferHeight));
                 }
-                player.move(currState, prevState);
+                player.move(currState, prevState, torchPowerup);
                 player.checkState();
+
+                world.checkForTorches(player, torchPowerup);
 
                 //Save our kbstate
                 prevState = currState;
                 sizeFactor = world.sizeFactor;
                 rects = world.bg.rects;
                 world.checkFallingPlatforms(3);
-
-                
 
                 /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
                 {

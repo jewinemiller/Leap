@@ -32,7 +32,7 @@ namespace Leap_of_Faith
         private World world; 
         float gravity = 0.25f;
         float ySpeed = 5f;
-        float xSpeed = 4f;
+        float xSpeed = 6f;
         int screenWidth;
         int screenHeight;
 
@@ -112,7 +112,7 @@ namespace Leap_of_Faith
         /// </summary>
         /// <param name="kbState">This is the current KeyBoardState</param>
         /// <param name="prevState">This is the previouse KeyBoardState</param>
-        public void move(KeyboardState kbState, KeyboardState prevState)
+        public void move(KeyboardState kbState, KeyboardState prevState, Powerup tPower)
         {
             //Print out debugging info
             //Console.WriteLine("VSTATE: " + vState);
@@ -164,7 +164,7 @@ namespace Leap_of_Faith
             }
 
             // Jumping/Falling
-            if (kbState.IsKeyDown(Keys.Up)) // If the player is currently pressing up.
+            if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.Space)) // If the player is currently pressing up.
             {
                 if (vState == VerticalState.none || vState == VerticalState.fallingPlatform) // If the player's veritcal state is none (not falling or jumping) or the player is on a Falling Platform.
                 {
@@ -229,7 +229,7 @@ namespace Leap_of_Faith
             {
                 if (vState == VerticalState.falling || vState == VerticalState.fallingPlatform) // If the player's vertical state is falling or fallingPlatform.
                 {
-                    world.reset();
+                    world.reset(tPower);
                 }
             }
 
@@ -241,7 +241,7 @@ namespace Leap_of_Faith
             body.Y = (int)position.Y;
 
             //Check to see if player is throwing torches
-            throwTorches(kbState, prevState);
+            throwTorches(kbState, prevState, tPower);
 
             //Update all torches, if any
             for (int i = 0; i < torches.Length; i++)
@@ -324,16 +324,20 @@ namespace Leap_of_Faith
         }
 
         //Throw torches
-        public void throwTorches(KeyboardState currState, KeyboardState prevState)
+        public void throwTorches(KeyboardState currState, KeyboardState prevState, Powerup powerup)
         {
-            if (currState.IsKeyDown(Keys.F) && prevState.IsKeyUp(Keys.F) && currTorch < torches.Length)
+            if (powerup.getUses() > 0)
             {
-                torches[currTorch].throwTorch();
-                currTorch++;
+                if (currState.IsKeyDown(Keys.F) && prevState.IsKeyUp(Keys.F) && currTorch < torches.Length)
+                {
+                    powerup.use();
+                    torches[currTorch].throwTorch();
+                    currTorch++;
+                }
             }
         }
 
-        public void reset()
+        public void reset(Powerup tp)
         {
             position = new Vector2(150, 50);
             body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
@@ -347,6 +351,7 @@ namespace Leap_of_Faith
                 torches[i] = new Torch(this, flameTexture, world);
             }
             vState = VerticalState.none;
+            tp.setUses(3);
         }
       
     }

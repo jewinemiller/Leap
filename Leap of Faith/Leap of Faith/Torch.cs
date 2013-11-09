@@ -53,7 +53,7 @@ namespace Leap_of_Faith
         //Update
         public void update()
         {
-            if (isThrown && falling)
+            if (isThrown)// && falling)
             {
                 if (burnTime > 0)
                 {
@@ -70,15 +70,17 @@ namespace Leap_of_Faith
                         }
                     }
 
-                    velocity.X = xSpeed;
-                    velocity.Y += gravity;
+                    if (falling)
+                    {
+                        velocity.X = xSpeed;
+                        velocity.Y += gravity;
 
-                    position.X += velocity.X;
-                    position.Y += velocity.Y;
+                        position.X += velocity.X;
+                        position.Y += velocity.Y;
 
-                    bounds.X = (int)position.X;
-                    bounds.Y = (int)position.Y;
-
+                        bounds.X = (int)position.X;
+                        bounds.Y = (int)position.Y;
+                    }
                     burnTime--;
                 }
                 else
@@ -92,7 +94,9 @@ namespace Leap_of_Faith
             {
                 this.position = player.Location;
             }
-          
+
+            if (burnTime <= 0)
+                isThrown = false;
         }
 
         //Throw the torch
@@ -101,7 +105,7 @@ namespace Leap_of_Faith
             isThrown = true;
             falling = true;
             velocity.Y = -1 * ySpeed;
-            burnTime = 500;
+            burnTime = 200;
         }
 
 
