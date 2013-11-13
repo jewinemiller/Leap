@@ -29,9 +29,9 @@ namespace Leap_of_Faith
         }
 
         //Add a platform to the list
-        public void addPlatform(Rectangle bounds, Texture2D texture)
+        public void addPlatform(Rectangle bounds, Texture2D texture, Texture2D[] t)
         {
-            platforms.Add(new Platform(bounds, texture));
+            platforms.Add(new Platform(bounds, texture, t));
         }
 
         public void checkFallingPlatforms(int dist)
@@ -161,7 +161,7 @@ namespace Leap_of_Faith
             int isFalling = rand.Next(35);
             if (isFalling == 1)
             {
-                p = new FallingPlatform(p.Bounds, p.Texture);
+                p = new FallingPlatform(p.Bounds, p.Texture, p.Textures);
             }
 
             int hasTorch = rand.Next(20);
@@ -189,12 +189,19 @@ namespace Leap_of_Faith
         private Rectangle torchBounds;
         private Texture2D texture;
         private bool hasTorch = false;
+        private Texture2D[] textures;
 
         //Public Properties representing the Texture and Bounds of the Platform
         public Texture2D Texture
         {
             get { return texture; }
             set { texture = value; }
+        }
+
+        public Texture2D[] Textures
+        {
+            get { return textures; }
+            set { textures = value; }
         }
 
         public Rectangle Bounds
@@ -210,10 +217,12 @@ namespace Leap_of_Faith
         }
 
         //Constructor
-        public Platform(Rectangle rect, Texture2D tex)
+        public Platform(Rectangle rect, Texture2D tex, Texture2D[] t)
         {
             bounds = rect;
             texture = tex;
+
+            textures = t;
 
             torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
         }
@@ -226,6 +235,8 @@ namespace Leap_of_Faith
 
         public void display(SpriteBatch s, Powerup torch)
         {
+            int numTextures = (bounds.Width - 52) / 5;
+
             s.Draw(texture, bounds, Color.Black);
 
             if (hasTorch == true)

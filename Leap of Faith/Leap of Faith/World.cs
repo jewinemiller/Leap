@@ -31,10 +31,10 @@ namespace Leap_of_Faith
             distTraveled = 0;
             Texture2D tempTex = platforms[0].Texture;
             platforms.Clear();
-            addPlatform(new Rectangle(100, 100, 150, 25), tempTex);
-            addPlatform(new Rectangle(300, 100, 150, 25), tempTex);
-            addPlatform(new Rectangle(550, 100, 150, 25), tempTex);
-            addPlatform(new Rectangle(800, 100, 150, 25), tempTex);
+            addPlatform(new Rectangle(100, 100, 150, 25), tempTex, platforms[0].Textures);
+            addPlatform(new Rectangle(300, 100, 150, 25), tempTex, platforms[0].Textures);
+            addPlatform(new Rectangle(550, 100, 150, 25), tempTex, platforms[0].Textures);
+            addPlatform(new Rectangle(800, 100, 150, 25), tempTex, platforms[0].Textures);
         }
     }
 }

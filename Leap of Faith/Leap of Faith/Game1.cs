@@ -41,6 +41,9 @@ namespace Leap_of_Faith
         Vector2 torchPowerupPos;
         Powerup torchPowerup;
 
+        //Platform textures
+        Texture2D[] platformTextures;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -72,13 +75,22 @@ namespace Leap_of_Faith
             lightmask = Content.Load<Texture2D>("lightmask");
             lightEffect = Content.Load<Effect>("lighting");
             background = Content.Load<Texture2D>("background");
-            flameTexture = Content.Load<Texture2D>("torch1");
+            flameTexture = Content.Load<Texture2D>("Torches/torch1");
             cursor = Content.Load<Texture2D>("cursor");
 
-            world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"));
-            world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"));
-            world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"));
-            world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"));
+            platformTextures = new Texture2D[17];
+            platformTextures[0] = Content.Load<Texture2D>("Platforms/endcap_left");
+            platformTextures[1] = Content.Load<Texture2D>("Platforms/endcap_right");
+
+            for (int i = 0; i < platformTextures.Length - 3; i++)
+            {
+                platformTextures[i + 2] = Content.Load<Texture2D>("Platforms/segment" + Convert.ToString(i+1));
+            }
+
+            world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures);
+            world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures);
+            world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures);
+            world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures);
 
             playerTexture = Content.Load<Texture2D>("dude");
             player = new Player(playerTexture, graphics, world, flameTexture);
@@ -92,7 +104,7 @@ namespace Leap_of_Faith
             menu = new MainMenu(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
             //Powerups
-            torchTexture = Content.Load<Texture2D>("torch1");
+            torchTexture = Content.Load<Texture2D>("Torches/torch1");
             torchPowerupPos = new Vector2(0,0);
             torchPowerup = new Powerup(torchTexture, torchPowerupPos, 3);
 
