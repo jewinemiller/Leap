@@ -29,9 +29,9 @@ namespace Leap_of_Faith
         }
 
         //Add a platform to the list
-        public void addPlatform(Rectangle bounds, Texture2D texture, Texture2D[] t)
+        public void addPlatform(Rectangle bounds, Texture2D texture, Texture2D[] t, Random r)
         {
-            platforms.Add(new Platform(bounds, texture, t));
+            platforms.Add(new Platform(bounds, texture, t, r));
         }
 
         public void checkFallingPlatforms(int dist)
@@ -156,12 +156,12 @@ namespace Leap_of_Faith
             }
           
             //Set the bounds of the new platform
-            p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
+            p.Bounds = new Rectangle(xVal, yVal, rand.Next(176, 350), 25);
 
             int isFalling = rand.Next(35);
             if (isFalling == 1)
             {
-                p = new FallingPlatform(p.Bounds, p.Texture, p.Textures);
+                p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
             }
 
             int hasTorch = rand.Next(20);
@@ -190,6 +190,8 @@ namespace Leap_of_Faith
         private Texture2D texture;
         private bool hasTorch = false;
         private Texture2D[] textures;
+        private Texture2D[] piecesToDraw;
+        public Random rand;
 
         //Public Properties representing the Texture and Bounds of the Platform
         public Texture2D Texture
@@ -217,7 +219,7 @@ namespace Leap_of_Faith
         }
 
         //Constructor
-        public Platform(Rectangle rect, Texture2D tex, Texture2D[] t)
+        public Platform(Rectangle rect, Texture2D tex, Texture2D[] t, Random rand)
         {
             bounds = rect;
             texture = tex;
@@ -225,6 +227,9 @@ namespace Leap_of_Faith
             textures = t;
 
             torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
+
+            this.rand = rand;
+            setTextures(rand);
         }
         //Empty Constructor.
         public Platform()
@@ -233,11 +238,38 @@ namespace Leap_of_Faith
             torchBounds = new Rectangle(bounds.X + (bounds.Width / 2) - 10, bounds.Y - 50, 20, 20);
         }
 
+        //Picks random textures for however many will fit on the platform
+        public void setTextures(Random rand)
+        {
+            int numTextures = (bounds.Width - 52) / 15;
+           // Random rand = new Random();
+
+            piecesToDraw = new Texture2D[numTextures];
+
+            for (int i = 0; i < numTextures; i++)
+            {
+                piecesToDraw[i] = textures[rand.Next(2, textures.Length - 3)];
+            }
+        }
+
         public void display(SpriteBatch s, Powerup torch)
         {
-            int numTextures = (bounds.Width - 52) / 5;
+            int xDist = 26;
 
-            s.Draw(texture, bounds, Color.Black);
+            //Draw left cap
+            s.Draw(textures[0], new Rectangle(bounds.X, bounds.Y, 26, 25), Color.White);
+
+            //Draw middle textures
+            for (int i = 0; i < piecesToDraw.Length; i++)
+            {
+                s.Draw(piecesToDraw[i], new Rectangle(bounds.X + xDist, bounds.Y, 15, 25), Color.White);
+                xDist += 15;
+            }
+
+            //Draw end cap
+            s.Draw(textures[1], new Rectangle(bounds.X + xDist, bounds.Y, 26, 25), Color.White);
+
+            //s.Draw(texture, bounds, Color.Black);
 
             if (hasTorch == true)
             {

@@ -14,8 +14,8 @@ namespace Leap_of_Faith
 {
     class FallingPlatform:Platform
     {
-        public FallingPlatform(Rectangle rect, Texture2D tex, Texture2D[] t)
-            : base(rect, tex, t)
+        public FallingPlatform(Rectangle rect, Texture2D tex, Texture2D[] t, Random r)
+            : base(rect, tex, t, r)
         {
 
         }
