@@ -72,7 +72,7 @@ namespace Leap_of_Faith
             lightmask = Content.Load<Texture2D>("lightmask");
             lightEffect = Content.Load<Effect>("lighting");
             background = Content.Load<Texture2D>("background");
-            flameTexture = Content.Load<Texture2D>("torch");
+            flameTexture = Content.Load<Texture2D>("torch1");
             cursor = Content.Load<Texture2D>("cursor");
 
             world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"));
@@ -92,7 +92,7 @@ namespace Leap_of_Faith
             menu = new MainMenu(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
             //Powerups
-            torchTexture = Content.Load<Texture2D>("torchTexture");
+            torchTexture = Content.Load<Texture2D>("torch1");
             torchPowerupPos = new Vector2(0,0);
             torchPowerup = new Powerup(torchTexture, torchPowerupPos, 3);
 

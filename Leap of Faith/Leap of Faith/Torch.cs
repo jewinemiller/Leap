@@ -35,7 +35,7 @@ namespace Leap_of_Faith
 
             position = p.Location;
             velocity = new Vector2(0, 0);
-            bounds = new Rectangle((int)position.X, (int)position.Y, 20, 20);
+            bounds = new Rectangle((int)position.X, (int)position.Y, 20, 50);
             flame = f;
 
             world = w;
@@ -61,9 +61,9 @@ namespace Leap_of_Faith
                     {
                         if (bounds.Intersects(p.Bounds))
                         {
-                            if (position.Y + 20 < p.Bounds.Top + 18)
+                            if (position.Y + 50 < p.Bounds.Top + 18)
                             {
-                                position.Y = p.Bounds.Top - 19;
+                                position.Y = p.Bounds.Top - 49;
                                 velocity.Y = 0;
                                 falling = false;
                             }

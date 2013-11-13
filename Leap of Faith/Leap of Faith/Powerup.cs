@@ -34,7 +34,7 @@ namespace Leap_of_Faith
             powerupTexture = texture;
             position = pos;
             width = 20;
-            height = 20;
+            height = 50;
             bounds = new Rectangle((int)pos.X, (int)pos.Y, (int)width, (int)height);
             numUses = uses;
         }
@@ -84,7 +84,7 @@ namespace Leap_of_Faith
             position.X = p.Bounds.X;
             position.Y = p.Bounds.Y - 50;
 
-            bounds = new Rectangle((int)position.X + p.Bounds.Width / 2 - 10, (int)position.Y, 20, 20);
+            bounds = new Rectangle((int)position.X + p.Bounds.Width / 2 - 10, (int)position.Y, (int)width, (int)height);
             collected = false;
         }
 
