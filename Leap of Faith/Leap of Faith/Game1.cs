@@ -89,10 +89,10 @@ namespace Leap_of_Faith
                 platformTextures[i + 2] = Content.Load<Texture2D>("Platforms/segment" + Convert.ToString(i+1));
             }
 
-            world.addPlatform(new Rectangle(100, 100, 176, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(300, 100, 176, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(550, 100, 176, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(800, 100, 176, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
 
             playerTexture = Content.Load<Texture2D>("dude");
             player = new Player(playerTexture, graphics, world, flameTexture);

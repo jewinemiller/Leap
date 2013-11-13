@@ -156,7 +156,7 @@ namespace Leap_of_Faith
             }
           
             //Set the bounds of the new platform
-            p.Bounds = new Rectangle(xVal, yVal, rand.Next(176, 350), 25);
+            p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
 
             int isFalling = rand.Next(35);
             if (isFalling == 1)
@@ -241,7 +241,7 @@ namespace Leap_of_Faith
         //Picks random textures for however many will fit on the platform
         public void setTextures(Random rand)
         {
-            int numTextures = (bounds.Width - 52) / 15;
+            int numTextures = (bounds.Width) / 15;
            // Random rand = new Random();
 
             piecesToDraw = new Texture2D[numTextures];
@@ -260,13 +260,14 @@ namespace Leap_of_Faith
             s.Draw(textures[0], new Rectangle(bounds.X, bounds.Y, 26, 25), Color.White);
 
             //Draw middle textures
-            for (int i = 0; i < piecesToDraw.Length; i++)
+            for (int i = 0; i < piecesToDraw.Length - 1; i++)
             {
                 s.Draw(piecesToDraw[i], new Rectangle(bounds.X + xDist, bounds.Y, 15, 25), Color.White);
                 xDist += 15;
             }
 
             //Draw end cap
+            xDist -= 15;
             s.Draw(textures[1], new Rectangle(bounds.X + xDist, bounds.Y, 26, 25), Color.White);
 
             //s.Draw(texture, bounds, Color.Black);
