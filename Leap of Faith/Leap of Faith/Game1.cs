@@ -217,12 +217,13 @@ namespace Leap_of_Faith
 
             spriteBatch.Begin();
             player.display(spriteBatch);
+
             Rectangle bounds = new Rectangle(Convert.ToInt32(player.Location.X - offset + playerTexture.Width / 2), Convert.ToInt32(player.Location.Y - offset + playerTexture.Height / 2),
               Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor));
+
             foreach (Platform p in world.getPlatforms())
             {
-                Rectangle displayRect = new Rectangle(p.Bounds.X, p.Bounds.Y, p.Bounds.X + p.Bounds.Width - (bounds.X + bounds.Width), p.Bounds.Y + p.Bounds.Height - (bounds.Y + bounds.Height));
-                p.display(spriteBatch, torchPowerup, displayRect);
+                p.display(spriteBatch, torchPowerup, bounds);
              }
             spriteBatch.End();
         }

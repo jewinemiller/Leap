@@ -257,7 +257,11 @@ namespace Leap_of_Faith
             int xDist = 26;
 
             //Draw left cap
-            s.Draw(textures[0], new Rectangle(bounds.X, bounds.Y, 26, 25), Color.White);
+            Rectangle leftBound = new Rectangle(bounds.X, bounds.Y, 26, 25);
+            if (drawBounds.Intersects(leftBound))
+            {
+                s.Draw(textures[0], leftBound, Color.White);
+            }
 
             //Draw middle textures
             for (int i = 0; i < piecesToDraw.Length - 1; i++)
@@ -266,17 +270,19 @@ namespace Leap_of_Faith
                 if (drawBounds.Intersects(temp))
                 {
                     s.Draw(piecesToDraw[i], temp, Color.White);
-                    xDist += 15;
+                   
                 }
+                xDist += 15;
             }
 
             //Draw end cap
             Rectangle endRect = new Rectangle(bounds.X + xDist, bounds.Y, 26, 25);
             if (drawBounds.Intersects(endRect))
             {
-                xDist -= 15;
+              // Rectangle temp = Rectangle.Intersect(drawBounds, endRect));
                 s.Draw(textures[1], endRect, Color.White);
             }
+            xDist -= 15;
 
             //s.Draw(texture, bounds, Color.Black);
 
