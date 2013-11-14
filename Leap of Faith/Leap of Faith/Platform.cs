@@ -65,7 +65,7 @@ namespace Leap_of_Faith
             this.distTraveled += distX;
             if (distTraveled >= CHECKPOINT_DISTANCE)
             {
-                sizeFactor = 5;
+                sizeFactor = 3.5;
                 distTraveled = 0;
             }
             //Move torches
@@ -252,7 +252,7 @@ namespace Leap_of_Faith
             }
         }
 
-        public void display(SpriteBatch s, Powerup torch)
+        public void display(SpriteBatch s, Powerup torch, Rectangle drawBounds)
         {
             int xDist = 26;
 
@@ -262,20 +262,31 @@ namespace Leap_of_Faith
             //Draw middle textures
             for (int i = 0; i < piecesToDraw.Length - 1; i++)
             {
-                s.Draw(piecesToDraw[i], new Rectangle(bounds.X + xDist, bounds.Y, 15, 25), Color.White);
-                xDist += 15;
+                Rectangle temp = new Rectangle(bounds.X + xDist, bounds.Y, 15, 25);
+                if (drawBounds.Intersects(temp))
+                {
+                    s.Draw(piecesToDraw[i], temp, Color.White);
+                    xDist += 15;
+                }
             }
 
             //Draw end cap
-            xDist -= 15;
-            s.Draw(textures[1], new Rectangle(bounds.X + xDist, bounds.Y, 26, 25), Color.White);
+            Rectangle endRect = new Rectangle(bounds.X + xDist, bounds.Y, 26, 25);
+            if (drawBounds.Intersects(endRect))
+            {
+                xDist -= 15;
+                s.Draw(textures[1], endRect, Color.White);
+            }
 
             //s.Draw(texture, bounds, Color.Black);
 
             if (hasTorch == true)
             {
                 torch.relocate(this);
-                torch.display(s);
+                if (drawBounds.Intersects(torch.Bounds))
+                {
+                    torch.display(s);
+                }
             }
         }
 

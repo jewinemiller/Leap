@@ -16,7 +16,7 @@ namespace Leap_of_Faith
     {
         private const int CHECKPOINT_DISTANCE = 10000; 
 
-        public double sizeFactor = 12;
+        public double sizeFactor = 1;
         private int distTraveled = 0;
         public Background bg;
         public World(GraphicsDeviceManager graphics)
@@ -27,7 +27,7 @@ namespace Leap_of_Faith
         public void reset(Powerup p)
         {
             player.reset(p);
-            sizeFactor = 12;
+            sizeFactor = 1;
             distTraveled = 0;
             Texture2D tempTex = platforms[0].Texture;
             Texture2D[] textures = platforms[0].Textures;

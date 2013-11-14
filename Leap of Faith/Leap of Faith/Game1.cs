@@ -211,16 +211,19 @@ namespace Leap_of_Faith
 
         private void DrawScene(GraphicsDevice device)
         {
-            
+            double offset = (lightmask.Width / 2) * sizeFactor;   
             device.SetRenderTarget(scene);
             device.Clear(Color.White);
 
             spriteBatch.Begin();
             player.display(spriteBatch);
+            Rectangle bounds = new Rectangle(Convert.ToInt32(player.Location.X - offset + playerTexture.Width / 2), Convert.ToInt32(player.Location.Y - offset + playerTexture.Height / 2),
+              Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor));
             foreach (Platform p in world.getPlatforms())
             {
-                p.display(spriteBatch, torchPowerup);
-            }
+                Rectangle displayRect = new Rectangle(p.Bounds.X, p.Bounds.Y, p.Bounds.X + p.Bounds.Width - (bounds.X + bounds.Width), p.Bounds.Y + p.Bounds.Height - (bounds.Y + bounds.Height));
+                p.display(spriteBatch, torchPowerup, displayRect);
+             }
             spriteBatch.End();
         }
 
