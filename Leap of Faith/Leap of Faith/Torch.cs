@@ -46,7 +46,7 @@ namespace Leap_of_Faith
         {
             if (isThrown)
             {
-                s.Draw(flame, bounds, Color.White);
+                s.Draw(flame, bounds, Color.Yellow);
             }
         }
 

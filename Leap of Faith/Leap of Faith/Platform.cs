@@ -163,6 +163,10 @@ namespace Leap_of_Faith
             {
                 p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
             }
+            else
+            {
+                p = new Platform(p.Bounds, p.Texture, p.Textures, p.rand);
+            }
 
             int hasTorch = rand.Next(20);
             //int hasTorch = 1;
