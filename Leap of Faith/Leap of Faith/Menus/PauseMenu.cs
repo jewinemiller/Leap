@@ -23,6 +23,8 @@ namespace Leap_of_Faith
         //ContentManager. Used to load textures
         private ContentManager content;
 
+        private SoundEffect buttonClick;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -38,6 +40,7 @@ namespace Leap_of_Faith
             resume = new Button(new Vector2(300.0f, 100.0f), c.Load<Texture2D>("start"));
             options = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("options"));
             quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
+            buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.
             isActive = true;
@@ -59,10 +62,12 @@ namespace Leap_of_Faith
             //If the button is play, start the game
             if(item.Equals(resume)){
                 (resume as Button).act(startGame);
+                buttonClick.Play();
             }
                 //Otherwise, if the button is quit, exit the game
             else if(item.Equals(quit)){
                 (quit as Button).act(exit);
+                buttonClick.Play();
             }
            
         }

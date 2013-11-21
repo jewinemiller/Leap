@@ -24,6 +24,8 @@ namespace Leap_of_Faith
         Rectangle[] rects;
         Background backObj;
 
+        Song bgmusic;
+
         Effect lightEffect;
         RenderTarget2D scene, mask;
         //Make a player
@@ -81,6 +83,8 @@ namespace Leap_of_Faith
             flameTexture = Content.Load<Texture2D>("Torches/torch1");
             cursor = Content.Load<Texture2D>("cursor");
 
+            bgmusic = Content.Load<Song>("Audio/MP3s/song2");
+
             platformTextures = new Texture2D[17];
             platformTextures[0] = Content.Load<Texture2D>("Platforms/endcap_left");
             platformTextures[1] = Content.Load<Texture2D>("Platforms/endcap_right");
@@ -105,6 +109,8 @@ namespace Leap_of_Faith
             mask = new RenderTarget2D(graphics.GraphicsDevice, param.BackBufferWidth, param.BackBufferHeight);
 
             menu = new MainMenu(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+
+            MediaPlayer.Play(bgmusic);
 
             //Powerups
             torchTexture = Content.Load<Texture2D>("Torches/torch1");
