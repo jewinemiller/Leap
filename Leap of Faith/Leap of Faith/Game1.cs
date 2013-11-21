@@ -111,6 +111,7 @@ namespace Leap_of_Faith
             menu = new MainMenu(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
 
             MediaPlayer.Play(bgmusic);
+            MediaPlayer.IsRepeating = true;
 
             //Powerups
             torchTexture = Content.Load<Texture2D>("Torches/torch1");
