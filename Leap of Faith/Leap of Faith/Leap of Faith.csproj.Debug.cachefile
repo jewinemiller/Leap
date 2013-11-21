@@ -8,8 +8,6 @@ Content\start.xnb
 Content\Menu.xnb
 Content\cursor.xnb
 Content\Torches\torchTexture.xnb
-Content\bg2.xnb
-Content\bg3.xnb
 Content\options.xnb
 Content\Torches\torch1.xnb
 Content\Platforms\endcap_left.xnb
@@ -46,5 +44,7 @@ Content\Audio\WAVs\Buttons\blip.xnb
 Content\Audio\WAVs\Buttons\button.xnb
 Content\Audio\WAVs\Buttons\button2.xnb
 Content\Audio\WAVs\woosh.xnb
+Content\wally.xnb
+Content\wally2.xnb
 Content\Audio\MP3s\background.wma
 Content\Audio\MP3s\song2.wma

@@ -152,7 +152,7 @@ namespace Leap_of_Faith
                 }
                 else
                 {
-                    world.bg.rects = world.bg.scroll((int)xSpeed);
+                    world.bg.scroll((int)xSpeed);
                     world.movePlatforms((int)xSpeed);
                     for (int i = 0; i < torches.Length; i++)
                     {

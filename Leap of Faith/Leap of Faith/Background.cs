@@ -14,13 +14,33 @@ namespace Leap_of_Faith
 {
     public class Background
     {
-        int counter = 0;
+        //int counter = 0;
         public Rectangle[] rects;
         public Background(Rectangle[] rect)
         {
             rects = rect;
         }
-        public Rectangle[] scroll(int speed)
+        public void scroll(int speed)
+        {
+            for (int i = 0; i < rects.Length; i++)
+            {
+                if (rects[i].X + rects[i].Width < 0)
+                {
+                    //rects[i].X = rects[i].Width * (rects.Length-1);
+
+                    if (i == 0)
+                    {
+                        rects[i].X = rects[rects.Length - 1].X + rects[rects.Length - 1].Width;
+                    }
+                    else
+                    {
+                        rects[i].X = rects[i - 1].X + rects[i - 1].Width;
+                    }
+                }
+                rects[i].X -= speed;
+            }
+        }
+        /*public Rectangle[] scroll(int speed)
         {
        
                 if (counter != rects.Length - 1)
@@ -80,8 +100,8 @@ namespace Leap_of_Faith
                     }
                 }
                 Console.Out.WriteLine("drawing rect " + counter);
-            }*/
+            }
             return rects;
-        }
+        }*/
     }
 }

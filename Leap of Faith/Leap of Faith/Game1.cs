@@ -19,8 +19,9 @@ namespace Leap_of_Faith
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D playerTexture, lightmask, background, bg2, bg3, cursor;
-        Texture2D[] bgs;
+        Texture2D playerTexture, lightmask, bgHolder, cursor;
+        List<Texture2D> backgrounds;
+        //Texture2D[] bgs;
         Rectangle[] rects;
         Background backObj;
 
@@ -65,8 +66,9 @@ namespace Leap_of_Faith
             // TODO: Add your initialization logic here
             world = new World(graphics);
             sizeFactor = world.sizeFactor;
-            bgs = new Texture2D[3];
-            rects = new Rectangle[bgs.Length];
+            backgrounds = new List<Texture2D>();
+            //bgs = new Texture2D[3];
+            //rects = new Rectangle[bgs.Length];
             base.Initialize();
         }
 
@@ -78,10 +80,20 @@ namespace Leap_of_Faith
         {
             lightmask = Content.Load<Texture2D>("lightmask");
             lightEffect = Content.Load<Effect>("lighting");
-            background = Content.Load<Texture2D>("background");
-            bg2 = Content.Load<Texture2D>("bg2");
+            //background = Content.Load<Texture2D>("background");
+            //bg2 = Content.Load<Texture2D>("bg2");
             flameTexture = Content.Load<Texture2D>("Torches/torch1");
             cursor = Content.Load<Texture2D>("cursor");
+
+            bgHolder = Content.Load<Texture2D>("wally");
+            backgrounds.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("wally2");
+            backgrounds.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("wally");
+            backgrounds.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("wally2");
+            backgrounds.Add(bgHolder);
+
 
             bgmusic = Content.Load<Song>("Audio/MP3s/song2");
 
@@ -121,13 +133,20 @@ namespace Leap_of_Faith
             //bg2 = Content.Load<Texture2D>("bg2");
             //bg3 = Content.Load<Texture2D>("bg3");
 
-            bgs[0] = background;
+            /*bgs[0] = background;
             bgs[1] = background;
             bgs[2] = background;
 
             rects[0] = new Rectangle(0, 0, background.Width, background.Height);
             rects[1] = new Rectangle(background.Width, 0, background.Width, background.Height);
             rects[2] = new Rectangle(background.Width, 0, background.Width, background.Height);
+            */
+            rects = new Rectangle[backgrounds.Count];
+            rects[0] = new Rectangle(0, 0, backgrounds[0].Width, backgrounds[0].Height);
+            for (int i = 1; i < rects.Length; i++)
+            {
+                rects[i] = new Rectangle((rects[i - 1].X + rects[i - 1].Width), 0, backgrounds[i].Width, backgrounds[i].Height);
+            }
 
             backObj = new Background(rects);
             world.bg = backObj;
@@ -265,9 +284,9 @@ namespace Leap_of_Faith
             // Create a Black Background
             spriteBatch.Begin();
            
-            for (int i = 0; i < bgs.Length; i++)
+            for (int i = 0; i < backgrounds.Count; i++)
             {
-                spriteBatch.Draw(bgs[i], rects[i], Color.White);
+                spriteBatch.Draw(backgrounds[i], rects[i], Color.White);
             }
             spriteBatch.End();
 

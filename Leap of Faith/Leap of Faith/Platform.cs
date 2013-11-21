@@ -36,23 +36,22 @@ namespace Leap_of_Faith
 
         public void checkFallingPlatforms(int dist)
         {
-            foreach (Platform p in platforms)
+            for (int i = 0; i < platforms.Count(); i++)//Platform p in platforms)
             {
-                if (p is FallingPlatform)
+                if (platforms[i] is FallingPlatform)
                 {
-                    if ((p as FallingPlatform).checkPlayerCollision(this.player))
+                    if ((platforms[i] as FallingPlatform).checkPlayerCollision(this.player))
                     {
-                        player.currentPlatform = p;
+                        player.currentPlatform = platforms[i];
 
-                        if ((p as FallingPlatform).isAboveGround())
+                        if ((platforms[i] as FallingPlatform).isAboveGround())
                         {
-                                (p as FallingPlatform).dropPlatform(dist);
-                                player.Location = new Vector2(player.Location.X, player.Location.Y + dist);
+                            (platforms[i] as FallingPlatform).dropPlatform(dist);
+                            player.Location = new Vector2(player.Location.X, player.Location.Y + dist);
                         }
                         else
                         {
-                            regenPlatform(p);
-                            break;
+                            regenPlatform(platforms[i]);
                         }
                     }
                 }
@@ -75,16 +74,15 @@ namespace Leap_of_Faith
             }
 
             //Loop through the platforms
-        
-                foreach (Platform p in platforms)
+
+                for (int i = 0; i < platforms.Count(); i++)
                 {
                     //Move each platform to the left by disX
-                    p.Bounds = new Rectangle(p.Bounds.X - distX, p.Bounds.Y, p.Bounds.Width, p.Bounds.Height);
+                    platforms[i].Bounds = new Rectangle(platforms[i].Bounds.X - distX, platforms[i].Bounds.Y, platforms[i].Bounds.Width, platforms[i].Bounds.Height);
                     //If the platform is off the screen, generate a new one. 
-                    if (p.Bounds.X + p.Bounds.Width <= 0)
+                    if (platforms[i].Bounds.X + platforms[i].Bounds.Width <= -30)
                     {
-                        regenPlatform(p);
-                        break;
+                        regenPlatform(platforms[i]);
                     }
 
                    /* if (p is FallingPlatform)
@@ -132,7 +130,64 @@ namespace Leap_of_Faith
         }
 
         //Function that generates a new platform
-        private void regenPlatform(Platform p)
+        private void regenPlatform(Platform plat)
+        {
+            int index = platforms.IndexOf(plat);
+            int prevIndex = index - 1;
+            if (prevIndex == -1)
+            {
+                prevIndex = platforms.Count - 1;
+            }
+
+            Platform p = platforms[index];
+            //Remove the platform that is off the screen
+            //platforms.Remove(p);
+            //Get the platform from the end of the list
+            Platform temp = platforms[prevIndex];
+            //New random number generator
+            Random rand = new Random();
+            //This is the amount of Y distance that you will add between the platform currently being generated
+            //and the one before it. 
+            int yDist = rand.Next(-200, 100 + p.Bounds.Height);
+            //The x Location of the new platform
+            //This should generate a platform 100 - 200 pixels behind the rightmost edge of the previous platform
+            int xVal = temp.Bounds.X + temp.Bounds.Width + rand.Next(100, 200);
+            //Where the platform will be vertically.
+            int yVal = temp.Bounds.Y + yDist;
+
+            //If the platform will be off the screen, move it to the bottom of the screen.
+            if (yVal >= graphics.PreferredBackBufferHeight - temp.Bounds.Height || yVal <= 0 + player.Body.Height)
+            {
+                yVal = graphics.PreferredBackBufferHeight - temp.Bounds.Height - 15;
+            }
+
+            //Set the bounds of the new platform
+            p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
+
+            int isFalling = rand.Next(35);
+            if (isFalling == 1)
+            {
+                p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
+            }
+            else
+            {
+                p = new Platform(p.Bounds, p.Texture, p.Textures, p.rand);
+            }
+
+            int hasTorch = rand.Next(20);
+            //int hasTorch = 1;
+            p.HasTorch = false;
+            if (hasTorch == 1)
+            {
+                p.HasTorch = true;
+            }
+            //Add the new platform to the screen
+            //platforms.Add(p);
+            platforms[index] = p;
+        }
+
+        //Function that generates a new platform
+        /*private void regenPlatform(Platform p)
         {
             //Remove the platform that is off the screen
             platforms.Remove(p);
@@ -177,7 +232,7 @@ namespace Leap_of_Faith
             }
             //Add the new platform to the screen
             platforms.Add(p);
-        }
+        }*/
 
         //Return the platforms
         public List<Platform> getPlatforms()
