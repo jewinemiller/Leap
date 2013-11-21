@@ -77,6 +77,7 @@ namespace Leap_of_Faith
             lightmask = Content.Load<Texture2D>("lightmask");
             lightEffect = Content.Load<Effect>("lighting");
             background = Content.Load<Texture2D>("background");
+            bg2 = Content.Load<Texture2D>("bg2");
             flameTexture = Content.Load<Texture2D>("Torches/torch1");
             cursor = Content.Load<Texture2D>("cursor");
 
@@ -189,7 +190,7 @@ namespace Leap_of_Faith
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.Black);
                   DrawScene(graphics.GraphicsDevice);
                 DrawEffects(graphics.GraphicsDevice);
 
@@ -223,7 +224,22 @@ namespace Leap_of_Faith
 
             foreach (Platform p in world.getPlatforms())
             {
-                p.display(spriteBatch, torchPowerup, bounds);
+                if (p.Bounds.Intersects(bounds))
+                {
+                    p.display(spriteBatch, torchPowerup, bounds);
+                }
+                for (int i = 0; i < player.NumTorches; i++)
+                {
+                    if (player.getTorch(i).IsThrown)
+                    {
+                        Rectangle tBound = new Rectangle(Convert.ToInt32(player.getTorch(i).Location.X - lightmask.Width / 2 - flameTexture.Width), Convert.ToInt32(player.getTorch(i).Location.Y - lightmask.Height / 2 - flameTexture.Height),
+                        Convert.ToInt32(lightmask.Width * 1.25), Convert.ToInt32(lightmask.Height * 1.25));
+                        if (tBound.Intersects(p.Bounds))
+                        {
+                            p.display(spriteBatch, torchPowerup, tBound);
+                        }
+                    }
+                }
              }
             spriteBatch.End();
         }
@@ -237,9 +253,10 @@ namespace Leap_of_Faith
 
             // Create a Black Background
             spriteBatch.Begin();
+           
             for (int i = 0; i < bgs.Length; i++)
             {
-                spriteBatch.Draw(bgs[i],rects[i], Color.White);
+                spriteBatch.Draw(bgs[i], rects[i], Color.White);
             }
             spriteBatch.End();
 

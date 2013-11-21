@@ -177,7 +177,7 @@ namespace Leap_of_Faith
             {
                 // Stop the jump.
                 vState = VerticalState.falling;
-                velocity.Y = -0.50f * velocity.Y;
+                velocity.Y = -0.5f * velocity.Y;
             }
 
             //Check for collision detection

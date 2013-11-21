@@ -150,7 +150,7 @@ namespace Leap_of_Faith
             int yVal = temp.Bounds.Y + yDist;
 
             //If the platform will be off the screen, move it to the bottom of the screen.
-            if (yVal >= graphics.PreferredBackBufferHeight - temp.Bounds.Height || yVal <= 0)
+            if (yVal >= graphics.PreferredBackBufferHeight - temp.Bounds.Height || yVal <= 0 + player.Body.Height)
             {
                 yVal = graphics.PreferredBackBufferHeight - temp.Bounds.Height - 15;
             }
