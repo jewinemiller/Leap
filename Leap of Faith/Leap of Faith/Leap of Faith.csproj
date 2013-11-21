@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Background.cs" />
     <Compile Include="FallingPlatform.cs" />
+    <Compile Include="Menus\GameOver.cs" />
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\Menu.cs" />
     <Compile Include="Menus\MenuItems\Button.cs" />

@@ -161,6 +161,10 @@ namespace Leap_of_Faith
                 player.move(currState, prevState, torchPowerup);
                 player.checkState();
 
+                if (player.Location.Y >= graphics.PreferredBackBufferHeight - player.Body.Height)
+                {
+                    menu = new GameOver(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), world, torchPowerup);
+                }
                 world.checkForTorches(player, torchPowerup);
 
                 //Save our kbstate
