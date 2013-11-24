@@ -176,6 +176,8 @@ namespace Leap_of_Faith
         {
             if (!menu.isActive)
             {
+                world.shrinkLight();
+
                 currState = Keyboard.GetState();
                 // Allows the game to exit
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)

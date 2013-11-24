@@ -38,5 +38,11 @@ namespace Leap_of_Faith
             addPlatform(new Rectangle(550, 100, 150, 25), tempTex, textures, rand);
             addPlatform(new Rectangle(800, 100, 150, 25), tempTex, textures, rand);
         }
+
+        public void shrinkLight()
+        {
+            if (sizeFactor > 1.1)
+                sizeFactor -= 0.001;
+        }
     }
 }

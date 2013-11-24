@@ -101,7 +101,7 @@ namespace Leap_of_Faith
                         }
                     }*/
                 }
-                if (sizeFactor > 1.5)
+               /* if (sizeFactor > 1.5)
                 {
                     if (sizeFactor > 3)
                     {
@@ -125,8 +125,7 @@ namespace Leap_of_Faith
                     {
                         sizeFactor -= .0015;
                     }
-                }
-           
+                }*/        
         }
 
         //Function that generates a new platform
@@ -151,7 +150,7 @@ namespace Leap_of_Faith
             int yDist = rand.Next(-200, 100 + p.Bounds.Height);
             //The x Location of the new platform
             //This should generate a platform 100 - 200 pixels behind the rightmost edge of the previous platform
-            int xVal = temp.Bounds.X + temp.Bounds.Width + rand.Next(100, 200);
+            int xVal = temp.Bounds.X + temp.Bounds.Width + rand.Next(200, 300) + this.distTraveled/100;
             //Where the platform will be vertically.
             int yVal = temp.Bounds.Y + yDist;
 
@@ -165,7 +164,7 @@ namespace Leap_of_Faith
             p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
 
             int isFalling = rand.Next(35);
-            if (isFalling == 1)
+            if (isFalling == 1 && p.Bounds.Y < graphics.PreferredBackBufferHeight - 150)
             {
                 p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
             }
