@@ -96,7 +96,21 @@ namespace Leap_of_Faith
             }
 
             if (burnTime <= 0)
+            {
                 isThrown = false;
+                int num = 0;
+                for (int c = 0; c < player.torches.Length; c++)
+                {
+                    if (player.torches[c].burnTime > 0)
+                    {
+                        num++;
+                    }
+                }
+                if (num == 0)
+                {
+                    player.burning2.Stop();
+                }
+            }
         }
 
         //Throw the torch

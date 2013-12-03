@@ -40,7 +40,8 @@ namespace Leap_of_Faith
         Texture2D flameTexture;
         public Torch[] torches;
         int currTorch = 0;
-        SoundEffect throwSound;
+        SoundEffect burning;
+        public SoundEffectInstance burning2;
 
         // Platform player is currently on.
         public Platform currentPlatform = null;
@@ -77,7 +78,10 @@ namespace Leap_of_Faith
             position = new Vector2(150, 50);
             body = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             //TODO: add content manager
-            //throwSound = Content.Load("Audio/WAVs/woosh");
+            
+            burning = w.game.Content.Load<SoundEffect>("Audio/WAVs/fire");
+            burning2 = burning.CreateInstance();
+
             texture = pTexture;
             flameTexture = fTexture;
             velocity = new Vector2(0, 0);
@@ -336,6 +340,8 @@ namespace Leap_of_Faith
                     powerup.use();
                     torches[currTorch].throwTorch();
                     currTorch++;
+                    burning2.Play();
+                    
                     // here
                 }
             }

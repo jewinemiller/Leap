@@ -64,7 +64,7 @@ namespace Leap_of_Faith
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            world = new World(graphics);
+            world = new World(graphics, this);
             sizeFactor = world.sizeFactor;
             backgrounds = new List<Texture2D>();
             //bgs = new Texture2D[3];

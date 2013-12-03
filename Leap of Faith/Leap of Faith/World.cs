@@ -19,9 +19,11 @@ namespace Leap_of_Faith
         public double sizeFactor = 3.5;
         private int distTraveled = 0;
         public Background bg;
-        public World(GraphicsDeviceManager graphics)
+        public Game1 game;
+        public World(GraphicsDeviceManager graphics, Game1 g)
         {
-            this.graphics = graphics; 
+            this.graphics = graphics;
+            game = g;
         }
 
         public void reset(Powerup p)
