@@ -49,6 +49,11 @@ namespace Leap_of_Faith
 
         Random randomNumber = new Random();
 
+        //Fonts
+        SpriteFont introFont;
+        int fontTime;
+        Vector2 fontPos;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -150,6 +155,11 @@ namespace Leap_of_Faith
 
             backObj = new Background(rects);
             world.bg = backObj;
+
+            //Fonts
+            introFont = Content.Load<SpriteFont>("Fonts/intro");
+            fontTime = 0;
+            fontPos = new Vector2((graphics.PreferredBackBufferWidth / 2) - 100, (graphics.PreferredBackBufferHeight / 2) - 50);
         }
 
         /// <summary>
@@ -176,6 +186,9 @@ namespace Leap_of_Faith
         {
             if (!menu.isActive)
             {
+                //Increase time for displaying fonts
+                fontTime++;
+
                 world.shrinkLight();
 
                 currState = Keyboard.GetState();
@@ -231,14 +244,40 @@ namespace Leap_of_Faith
                 lightEffect.CurrentTechnique.Passes[0].Apply();
                 spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
                 spriteBatch.End();
-            
-            if(menu.isActive)
-            {
-                spriteBatch.Begin();
-                menu.draw(spriteBatch, null);
-                spriteBatch.Draw(cursor, mouseLoc, Color.Black);
-                spriteBatch.End();
-            }
+
+                if (menu.isActive)
+                {
+                    spriteBatch.Begin();
+                    menu.draw(spriteBatch, null);
+                    spriteBatch.Draw(cursor, mouseLoc, Color.Black);
+                    spriteBatch.End();
+                }
+                else
+                {
+                    //Draw fonts
+                    spriteBatch.Begin();
+
+                    float firstChange = 500;
+                    float secondChange = 1000;
+                    float thirdChange = 1500;
+
+                    //Draw controls font
+                    if (fontTime < firstChange)
+                    {
+                        spriteBatch.DrawString(introFont, "Arrow keys to move", fontPos, Color.DarkGoldenrod);
+                    }
+                    else if (fontTime > firstChange && fontTime < secondChange)
+                    {
+                        spriteBatch.DrawString(introFont, "Space or up arrow to jump", fontPos, Color.DarkGoldenrod);
+                    }
+                    else if (fontTime > secondChange && fontTime < thirdChange)
+                    {
+                        spriteBatch.DrawString(introFont, "Throw torch with F", fontPos, Color.DarkGoldenrod);
+                    }
+
+                    spriteBatch.End();
+               }
+
             base.Draw(gameTime);
         }
 
