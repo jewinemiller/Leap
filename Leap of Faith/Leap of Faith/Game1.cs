@@ -258,18 +258,18 @@ namespace Leap_of_Faith
                     //Draw fonts
                     spriteBatch.Begin();
 
-                    float firstChange = 500;
-                    float secondChange = 1000;
-                    float thirdChange = 1500;
+                    float firstChange = 125;
+                    float secondChange = 225;
+                    float thirdChange = 325;
 
                     //Draw controls font
                     if (fontTime < firstChange)
                     {
-                        spriteBatch.DrawString(introFont, "Arrow keys to move", fontPos, Color.DarkGoldenrod);
+                        spriteBatch.DrawString(introFont, "Space or up arrow to jump", fontPos, Color.DarkGoldenrod);
                     }
                     else if (fontTime > firstChange && fontTime < secondChange)
                     {
-                        spriteBatch.DrawString(introFont, "Space or up arrow to jump", fontPos, Color.DarkGoldenrod);
+                        spriteBatch.DrawString(introFont, "Arrow keys to move", fontPos, Color.DarkGoldenrod);
                     }
                     else if (fontTime > secondChange && fontTime < thirdChange)
                     {
