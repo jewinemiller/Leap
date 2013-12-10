@@ -62,7 +62,7 @@ namespace Leap_of_Faith
         public void movePlatforms(int distX)
         {
             this.distTraveled += distX;
-            this.score += ((float)distX / (float)sizeFactor); 
+            this.score += (float)Math.Round((float)distX / (float)sizeFactor); 
             if (distTraveled >= CHECKPOINT_DISTANCE)
             {
                 sizeFactor = 3.5;
@@ -344,7 +344,7 @@ namespace Leap_of_Faith
             {
                 Rectangle drawnEnd = Rectangle.Intersect(drawBounds, endRect);
               // Rectangle temp = Rectangle.Intersect(drawBounds, endRect));
-                s.Draw(textures[1], drawnEnd, new Rectangle(0,0,textures[1].Width, drawnEnd.Height), Color.White);
+                //s.Draw(textures[1], drawnEnd, new Rectangle(0,0,textures[1].Width, drawnEnd.Height), Color.White);
             }
             xDist -= 15;
 

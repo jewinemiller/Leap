@@ -2,13 +2,14 @@ Content\Platform.xnb
 Content\dude.xnb
 Content\Background.xnb
 Content\lightmask.xnb
-Content\Torches\torch.xnb
+Content\lighting.xnb
 Content\quit.xnb
 Content\start.xnb
 Content\Menu.xnb
 Content\cursor.xnb
-Content\Torches\torchTexture.xnb
 Content\options.xnb
+Content\Torches\torch.xnb
+Content\Torches\torchTexture.xnb
 Content\Torches\torch1.xnb
 Content\Platforms\endcap_left.xnb
 Content\Platforms\endcap_right.xnb
@@ -30,7 +31,6 @@ Content\Platforms\segment13.xnb
 Content\restart.xnb
 Content\wally.xnb
 Content\wally2.xnb
-Content\lighting.xnb
 Content\Audio\MP3s\background.xnb
 Content\Audio\MP3s\song2.xnb
 Content\Audio\WAVs\drip2.xnb
