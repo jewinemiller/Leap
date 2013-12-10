@@ -27,7 +27,7 @@ namespace Leap_of_Faith
         World world;
         Powerup pUp;
         SoundEffect buttonClick;
-        StreamReader reader = new StreamReader("highScore.txt"); 
+       
 
         /// <summary>
         /// Constructor
@@ -46,6 +46,7 @@ namespace Leap_of_Faith
             score = new Label(new Vector2(200.0f, 50.0f), c.Load<Texture2D>("quit"), "Your Score: " + Math.Round(w.score , 2));
             try
             {
+                StreamReader reader = new StreamReader("highScore.txt"); 
                 high = Double.Parse(reader.ReadLine());
                 reader.Close();
                 if (high < w.score)
@@ -58,7 +59,6 @@ namespace Leap_of_Faith
             }
             catch (Exception e)
             {
-                reader.Close();
                 high = w.score;
                 StreamWriter writer = new StreamWriter("highScore.txt", false);
                 writer.Write(Math.Round(high, 2));

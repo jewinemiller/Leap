@@ -26,6 +26,8 @@ Content\Platforms\segment8.xnb
 Content\Platforms\segment9.xnb
 Content\Platforms\segment13.xnb
 Content\restart.xnb
+Content\wally.xnb
+Content\wally2.xnb
 Content\lighting.xnb
 Content\Audio\MP3s\background.xnb
 Content\Audio\MP3s\song2.xnb
@@ -42,8 +44,6 @@ Content\Audio\WAVs\Buttons\blip.xnb
 Content\Audio\WAVs\Buttons\button.xnb
 Content\Audio\WAVs\Buttons\button2.xnb
 Content\Audio\WAVs\woosh.xnb
-Content\wally.xnb
-Content\wally2.xnb
 Content\Fonts\intro.xnb
 Content\Audio\MP3s\background.wma
 Content\Audio\MP3s\song2.wma
