@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leap of Faith", "Leap of Faith.csproj", "{62F0087F-9F41-45A5-AD0F-4CA5AF361801}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leap of FaithContent", "..\Leap of FaithContent\Leap of FaithContent.contentproj", "{3F483DDD-2B0C-4D7C-A8D2-985259AD33D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62F0087F-9F41-45A5-AD0F-4CA5AF361801}.Debug|x86.ActiveCfg = Debug|x86
+		{62F0087F-9F41-45A5-AD0F-4CA5AF361801}.Debug|x86.Build.0 = Debug|x86
+		{62F0087F-9F41-45A5-AD0F-4CA5AF361801}.Release|x86.ActiveCfg = Release|x86
+		{62F0087F-9F41-45A5-AD0F-4CA5AF361801}.Release|x86.Build.0 = Release|x86
+		{3F483DDD-2B0C-4D7C-A8D2-985259AD33D2}.Debug|x86.ActiveCfg = Debug|x86
+		{3F483DDD-2B0C-4D7C-A8D2-985259AD33D2}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

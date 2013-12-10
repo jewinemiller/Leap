@@ -33,8 +33,8 @@ namespace Leap_of_Faith
         float gravity = 0.25f;
         float ySpeed = 5f;
         float xSpeed = 6f;
-        int screenWidth;
-        int screenHeight;
+        public int screenWidth;
+        public int screenHeight;
 
         //Torches stuff
         Texture2D flameTexture;
