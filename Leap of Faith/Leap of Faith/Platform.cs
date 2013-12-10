@@ -62,6 +62,7 @@ namespace Leap_of_Faith
         public void movePlatforms(int distX)
         {
             this.distTraveled += distX;
+            this.score += ((float)distX / (float)sizeFactor); 
             if (distTraveled >= CHECKPOINT_DISTANCE)
             {
                 sizeFactor = 3.5;

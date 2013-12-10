@@ -205,6 +205,7 @@ namespace Leap_of_Faith
                 if (player.Location.Y >= graphics.PreferredBackBufferHeight - player.Body.Height)
                 {
                     menu = new GameOver(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), world, torchPowerup);
+                    fontTime = 0;
                 }
                 world.checkForTorches(player, torchPowerup);
 
@@ -248,7 +249,7 @@ namespace Leap_of_Faith
                 if (menu.isActive)
                 {
                     spriteBatch.Begin();
-                    menu.draw(spriteBatch, null);
+                    menu.draw(spriteBatch, introFont);
                     spriteBatch.Draw(cursor, mouseLoc, Color.Black);
                     spriteBatch.End();
                 }

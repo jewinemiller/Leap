@@ -20,6 +20,7 @@ namespace Leap_of_Faith
     {
         //Buttons to start, quit, and show stats
         private Button restart, quit;
+        private Label score; 
         //ContentManager. Used to load textures
         private ContentManager content;
         World world;
@@ -40,13 +41,14 @@ namespace Leap_of_Faith
             pUp = power;
             restart = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("restart"));
             quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
+            score = new Label(new Vector2(100.0f, 100.0f), c.Load<Texture2D>("quit"), "Your Score: " + w.score);
             buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.
             isActive = true;
             items.Add(restart);
             items.Add(quit);
-
+            items.Add(score);
             //Finish some initialization
             content = c;
         }

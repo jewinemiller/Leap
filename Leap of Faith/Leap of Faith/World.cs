@@ -17,6 +17,7 @@ namespace Leap_of_Faith
         private const int CHECKPOINT_DISTANCE = 10000; 
 
         public double sizeFactor = 3.5;
+        public float score = 0;
         private int distTraveled = 0;
         public Background bg;
         public Game1 game;
@@ -39,6 +40,7 @@ namespace Leap_of_Faith
             addPlatform(new Rectangle(300, 100, 150, 25), tempTex, textures, rand);
             addPlatform(new Rectangle(550, 100, 150, 25), tempTex, textures, rand);
             addPlatform(new Rectangle(800, 100, 150, 25), tempTex, textures, rand);
+            score = 0;
         }
 
         public void shrinkLight()
