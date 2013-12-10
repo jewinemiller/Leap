@@ -164,8 +164,9 @@ namespace Leap_of_Faith
             //Set the bounds of the new platform
             p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
 
-            int isFalling = rand.Next(35);
-            if (isFalling == 1 && p.Bounds.Y < graphics.PreferredBackBufferHeight - 150)
+            int isFalling = rand.Next(15);
+            //int isFalling = 1;
+            if (isFalling == 1 && p.Bounds.Y < graphics.PreferredBackBufferHeight - 200)
             {
                 p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
             }

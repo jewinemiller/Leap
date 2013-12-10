@@ -73,13 +73,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Torches\torch.png">
-      <Name>torch</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="quit.png">
       <Name>quit</Name>
       <Importer>TextureImporter</Importer>
@@ -101,13 +94,6 @@
   <ItemGroup>
     <Compile Include="cursor.png">
       <Name>cursor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Torches\torchTexture.png">
-      <Name>torchTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
