@@ -20,12 +20,14 @@ namespace Leap_of_Faith
     {
         //Buttons to start, quit, and show stats
         private Button restart, quit;
-        private Label score; 
+        private Label score, highScore;
+        private double high = 0;
         //ContentManager. Used to load textures
         private ContentManager content;
         World world;
         Powerup pUp;
         SoundEffect buttonClick;
+        StreamReader reader = new StreamReader("highScore.txt"); 
 
         /// <summary>
         /// Constructor
@@ -41,7 +43,28 @@ namespace Leap_of_Faith
             pUp = power;
             restart = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("restart"));
             quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
-            score = new Label(new Vector2(100.0f, 100.0f), c.Load<Texture2D>("quit"), "Your Score: " + w.score);
+            score = new Label(new Vector2(200.0f, 50.0f), c.Load<Texture2D>("quit"), "Your Score: " + Math.Round(w.score , 2));
+            try
+            {
+                high = Double.Parse(reader.ReadLine());
+                reader.Close();
+                if (high < w.score)
+                {
+                    high = w.score;
+                    StreamWriter writer = new StreamWriter("highScore.txt", false);
+                    writer.Write(Math.Round(high, 2));
+                    writer.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                reader.Close();
+                high = w.score;
+                StreamWriter writer = new StreamWriter("highScore.txt", false);
+                writer.Write(Math.Round(high, 2));
+                writer.Close();
+            }
+            highScore = new Label(new Vector2(200.0f, 100.0f), c.Load<Texture2D>("quit"), "High Score: " + Math.Round(high , 2));
             buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.
@@ -49,6 +72,7 @@ namespace Leap_of_Faith
             items.Add(restart);
             items.Add(quit);
             items.Add(score);
+            items.Add(highScore);
             //Finish some initialization
             content = c;
         }
@@ -64,6 +88,7 @@ namespace Leap_of_Faith
             if (item.Equals(restart))
             {
                 (restart as Button).act(restartGame);
+                
                 buttonClick.Play();
             }
             //Otherwise, if the button is quit, exit the game
