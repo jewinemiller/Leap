@@ -321,13 +321,17 @@ namespace Leap_of_Faith
             double offset = (lightmask.Width / 2) * sizeFactor;
             device.SetRenderTarget(mask);
             device.Clear(Color.Black);
-
+            float sizeVal = (1.1f - (1.1f / (float)world.sizeFactor));
+            if (sizeVal < .05f)
+            {
+                sizeVal = .05f; 
+            }
             // Create a Black Background
             spriteBatch.Begin();
            
             for (int i = 0; i < backgrounds.Count; i++)
             {
-                spriteBatch.Draw(backgrounds[i], rects[i], Color.White);
+                spriteBatch.Draw(backgrounds[i], rects[i], new Color(sizeVal, sizeVal, sizeVal));
             }
             spriteBatch.End();
 

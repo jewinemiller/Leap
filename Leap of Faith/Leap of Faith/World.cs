@@ -44,7 +44,7 @@ namespace Leap_of_Faith
         public void shrinkLight()
         {
             if (sizeFactor > 1.1)
-                sizeFactor -= 0.001;
+                sizeFactor -= 0.002;
         }
     }
 }
