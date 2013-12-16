@@ -65,7 +65,7 @@ namespace Leap_of_Faith
             this.score += (float)Math.Round((float)distX / (float)sizeFactor); 
             if (distTraveled >= CHECKPOINT_DISTANCE)
             {
-                sizeFactor = 3.5;
+                sizeFactor = 3.0;
                 distTraveled = 0;
             }
             //Move torches
@@ -326,7 +326,7 @@ namespace Leap_of_Faith
             }
 
             //Draw middle textures
-            for (int i = 0; i < piecesToDraw.Length - 2; i++)
+            for (int i = 0; i < piecesToDraw.Length - 1; i++)
             {
                 Rectangle temp = new Rectangle(bounds.X + xDist, bounds.Y, 15, 25);
 

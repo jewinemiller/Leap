@@ -322,7 +322,7 @@ namespace Leap_of_Faith
             double offset = (lightmask.Width / 2) * sizeFactor;
             device.SetRenderTarget(mask);
             device.Clear(Color.Black);
-            float sizeVal = (1.1f - (1.1f / (float)world.sizeFactor));
+            float sizeVal = (1.0f - (1.1f / (float)world.sizeFactor));
             if (sizeVal < .05f)
             {
                 sizeVal = .05f; 
