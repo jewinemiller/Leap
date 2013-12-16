@@ -20,6 +20,7 @@ namespace Leap_of_Faith
         public float score = 0;
         private int distTraveled = 0;
         public Background bg;
+        public Background rocks;
         public Game1 game;
         public World(GraphicsDeviceManager graphics, Game1 g)
         {

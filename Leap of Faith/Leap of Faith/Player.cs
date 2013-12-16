@@ -156,7 +156,7 @@ namespace Leap_of_Faith
                 }
                 else
                 {
-                    world.bg.scroll((int)xSpeed);
+                    world.bg.scroll((int)xSpeed - 3);
                     world.movePlatforms((int)xSpeed);
                     for (int i = 0; i < torches.Length; i++)
                     {
@@ -165,7 +165,7 @@ namespace Leap_of_Faith
                             torches[i].Location = new Vector2(torches[i].Location.X - xSpeed, torches[i].Location.Y);
                         }
                     }
-
+                    world.rocks.scroll((int)xSpeed - 1);
                     hState = HorizontalState.walkingRight;
                 }
             }

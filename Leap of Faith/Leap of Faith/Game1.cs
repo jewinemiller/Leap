@@ -21,10 +21,12 @@ namespace Leap_of_Faith
 
         Texture2D playerTexture, lightmask, bgHolder, cursor;
         List<Texture2D> backgrounds;
+        List<Texture2D> rocks;
         //Texture2D[] bgs;
         Rectangle[] rects;
+        Rectangle[] rockrects;
         Background backObj;
-
+        Background rockObj;
         Song bgmusic;
 
         Effect lightEffect;
@@ -72,6 +74,7 @@ namespace Leap_of_Faith
             world = new World(graphics, this);
             sizeFactor = world.sizeFactor;
             backgrounds = new List<Texture2D>();
+            rocks = new List<Texture2D>();
             //bgs = new Texture2D[3];
             //rects = new Rectangle[bgs.Length];
             base.Initialize();
@@ -99,6 +102,12 @@ namespace Leap_of_Faith
             bgHolder = Content.Load<Texture2D>("wally2");
             backgrounds.Add(bgHolder);
 
+            bgHolder = Content.Load<Texture2D>("rocky1");
+            rocks.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("rocky2");
+            rocks.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("rocky3");
+            rocks.Add(bgHolder);
 
             bgmusic = Content.Load<Song>("Audio/MP3s/song2");
 
@@ -147,15 +156,21 @@ namespace Leap_of_Faith
             rects[2] = new Rectangle(background.Width, 0, background.Width, background.Height);
             */
             rects = new Rectangle[backgrounds.Count];
+            rockrects = new Rectangle[rocks.Count];
             rects[0] = new Rectangle(0, 0, backgrounds[0].Width, backgrounds[0].Height);
+            rockrects[0] = new Rectangle(0, 0, rocks[0].Width, rocks[0].Height);
             for (int i = 1; i < rects.Length; i++)
             {
                 rects[i] = new Rectangle((rects[i - 1].X + rects[i - 1].Width), 0, backgrounds[i].Width, backgrounds[i].Height);
             }
-
+            for (int i = 1; i < rockrects.Length; i++)
+            {
+                rockrects[i] = new Rectangle((rockrects[i - 1].X + rockrects[i - 1].Width), 0, rocks[i].Width, rocks[i].Height);
+            }
             backObj = new Background(rects);
             world.bg = backObj;
-
+            rockObj = new Background(rockrects);
+            world.rocks = rockObj;
             //Fonts
             introFont = Content.Load<SpriteFont>("Fonts/intro");
             fontTime = 0;
@@ -213,6 +228,7 @@ namespace Leap_of_Faith
                 prevState = currState;
                 sizeFactor = world.sizeFactor;
                 rects = world.bg.rects;
+                rockrects = world.rocks.rects;
                 world.checkFallingPlatforms(3);
 
                 /*if (currState.IsKeyDown(Keys.Right) || currState.IsKeyDown(Keys.D))
@@ -333,6 +349,10 @@ namespace Leap_of_Faith
             for (int i = 0; i < backgrounds.Count; i++)
             {
                 spriteBatch.Draw(backgrounds[i], rects[i], new Color(sizeVal, sizeVal, sizeVal));
+            }
+            for (int i = 0; i < rocks.Count; i++)
+            {
+                spriteBatch.Draw(rocks[i], rockrects[i], new Color(sizeVal, sizeVal, sizeVal));
             }
             spriteBatch.End();
 
