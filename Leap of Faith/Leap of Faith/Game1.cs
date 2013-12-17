@@ -109,7 +109,9 @@ namespace Leap_of_Faith
             rocks.Add(bgHolder);
             bgHolder = Content.Load<Texture2D>("rocky2");
             rocks.Add(bgHolder);
-            bgHolder = Content.Load<Texture2D>("rocky3");
+            bgHolder = Content.Load<Texture2D>("rocky1");
+            rocks.Add(bgHolder);
+            bgHolder = Content.Load<Texture2D>("rocky2");
             rocks.Add(bgHolder);
 
             font = Content.Load<SpriteFont>("Font");
@@ -305,7 +307,6 @@ namespace Leap_of_Faith
                 spriteBatch.Draw(cursor, mouseLoc, Color.White);
                 spriteBatch.End();
             }
-
             else
             {
                 //Draw fonts
@@ -386,13 +387,13 @@ namespace Leap_of_Faith
            
             for (int i = 0; i < backgrounds.Count; i++)
             {
-                spriteBatch.Draw(backgrounds[i], rects[i], Color.White);
+                spriteBatch.Draw(backgrounds[i], rects[i], new Color(sizeVal/2, sizeVal/2, sizeVal/2));
             }
 
             spriteBatch.Draw(Content.Load<Texture2D>("backdrop"), new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), new Color(0.0f, 0.0f, 0.0f, 0.8f));
             for (int i = 0; i < rocks.Count; i++)
             {
-                spriteBatch.Draw(rocks[i], rockrects[i], new Color(sizeVal, sizeVal, sizeVal));
+                spriteBatch.Draw(rocks[i], rockrects[i], new Color(sizeVal/4, sizeVal/4, sizeVal/4));
             }
             spriteBatch.End();
 

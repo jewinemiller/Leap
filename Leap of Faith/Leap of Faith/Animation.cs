@@ -34,5 +34,19 @@ namespace Leap_of_Faith
             Console.WriteLine(currFrame);
             return animCycle[currFrame];
         }
+
+        public Texture2D lastFrame()
+        {
+            if (currFrame != 0)
+            {
+                currFrame--;
+            }
+            else
+            {
+                currFrame = animCycle.Count - 1;
+            }
+            Console.WriteLine(currFrame);
+            return animCycle[currFrame];
+        }
     }
 }

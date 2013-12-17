@@ -144,6 +144,7 @@ namespace Leap_of_Faith
                     //Move the player to the left 
                     velocity.X = -1 * xSpeed;
                 }
+                animCycle.lastFrame();
             }
 
             if ((kbState.IsKeyDown(Keys.Right) && kbState.IsKeyUp(Keys.Left)) || (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A)))
@@ -155,13 +156,11 @@ namespace Leap_of_Faith
 
                     //Move the player to the right
                     velocity.X = xSpeed;
-                    animCycle.nextFrame();
                 }
                 else
                 {
                     world.bg.scroll((int)xSpeed-3);
                     world.movePlatforms((int)xSpeed);
-                    animCycle.nextFrame();
                     for (int i = 0; i < torches.Length; i++)
                     {
                         if (torches[i].Falling == false)
@@ -173,6 +172,7 @@ namespace Leap_of_Faith
                     hState = HorizontalState.walkingRight;
                     world.rocks.scroll((int)xSpeed - 1);
                 }
+                animCycle.nextFrame();
             }
 
             // Jumping/Falling
@@ -200,9 +200,9 @@ namespace Leap_of_Faith
                     if (body.Intersects(p.Bounds))
                     {
                         // && (position.X > p.Bounds.Left - 50 *.75) && (position.X < p.Bounds.Right - 50 * .75)
-                        if (position.Y + 50 < p.Bounds.Top + 18)
+                        if (position.Y + 44 < p.Bounds.Top + 18)
                         {
-                            position.Y = p.Bounds.Top - 49;
+                            position.Y = p.Bounds.Top - 43;
                             vState = VerticalState.none;
                             velocity.Y = 0;
 
@@ -237,7 +237,7 @@ namespace Leap_of_Faith
                 }
             }
 
-            if (position.Y >= screenHeight - 50) // If the player is at the bottom of the screen.
+            if (position.Y >= screenHeight - 44) // If the player is at the bottom of the screen.
             {
                 if (vState == VerticalState.falling || vState == VerticalState.fallingPlatform) // If the player's vertical state is falling or fallingPlatform.
                 {
