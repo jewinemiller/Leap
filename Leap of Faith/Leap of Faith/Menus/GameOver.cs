@@ -27,7 +27,6 @@ namespace Leap_of_Faith
         World world;
         Powerup pUp;
         SoundEffect buttonClick;
-       
 
         /// <summary>
         /// Constructor
@@ -41,12 +40,13 @@ namespace Leap_of_Faith
             items = new List<MenuItem>();
             world = w;
             pUp = power;
+            MenuTex = c.Load<Texture2D>("gameover");
             restart = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("restart"));
             quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
-            score = new Label(new Vector2(200.0f, 50.0f), c.Load<Texture2D>("quit"), "Your Score: " + Math.Round(w.score , 2));
+            score = new Label(new Vector2(100.0f, 100.0f), c.Load<Texture2D>("quit"), "Your Score: " + w.score/10 + " meters");
             try
             {
-                StreamReader reader = new StreamReader("highScore.txt"); 
+                StreamReader reader = new StreamReader("highScore.txt");
                 high = Double.Parse(reader.ReadLine());
                 reader.Close();
                 if (high < w.score)
@@ -64,7 +64,7 @@ namespace Leap_of_Faith
                 writer.Write(Math.Round(high, 2));
                 writer.Close();
             }
-            highScore = new Label(new Vector2(200.0f, 100.0f), c.Load<Texture2D>("quit"), "High Score: " + Math.Round(high , 2));
+            highScore = new Label(new Vector2(100.0f, 150.0f), c.Load<Texture2D>("quit"), "High Score: " + Math.Round(high, 2) / 10 + " meters");
             buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.
@@ -88,7 +88,6 @@ namespace Leap_of_Faith
             if (item.Equals(restart))
             {
                 (restart as Button).act(restartGame);
-                
                 buttonClick.Play();
             }
             //Otherwise, if the button is quit, exit the game

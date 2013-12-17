@@ -16,12 +16,14 @@ namespace Leap_of_Faith
     /// <summary>
     /// Main Menu - Displays at the start of the game
     /// </summary>
-    public class PauseMenu : Menu
+    class PauseMenu : Menu
     {
        //Buttons to start, quit, and show stats
-        private Button resume, options, quit;
+        private Button resume, restart, quit;
         //ContentManager. Used to load textures
         private ContentManager content;
+        World world;
+        Powerup pUp;
 
         private SoundEffect buttonClick;
 
@@ -32,20 +34,23 @@ namespace Leap_of_Faith
         /// <param name="p">The Player</param>
         /// <param name="b">Bounding Rectangle - Displays the menu of set size</param>
         /// <param name="w">The World that the Game takes place in</param>
-        public PauseMenu(ContentManager c, Rectangle b):base(c, b)
+        public PauseMenu(ContentManager c, Rectangle b, World w, Powerup power)
+            : base(c, b)
         {
             //Initialize Everything
             items = new List<MenuItem>();
+            world = w;
+            pUp = power;
           
-            resume = new Button(new Vector2(300.0f, 100.0f), c.Load<Texture2D>("start"));
-            options = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("options"));
-            quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
+            resume = new Button(new Vector2(300.0f, 150.0f), c.Load<Texture2D>("continue"));
+            restart = new Button(new Vector2(300.0f, 250.0f), c.Load<Texture2D>("restart"));
+            quit = new Button(new Vector2(300.0f, 350.0f), c.Load<Texture2D>("quit"));
             buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.
             isActive = true;
             items.Add(resume);
-            items.Add(options);
+            items.Add(restart);
             items.Add(quit);
             
             //Finish some initialization
@@ -61,7 +66,13 @@ namespace Leap_of_Faith
         {
             //If the button is play, start the game
             if(item.Equals(resume)){
-                (resume as Button).act(startGame);
+                (resume as Button).act(ResumeGame);
+                buttonClick.Play();
+            }
+
+            if (item.Equals(restart))
+            {
+                (restart as Button).act(restartGame);
                 buttonClick.Play();
             }
                 //Otherwise, if the button is quit, exit the game
@@ -75,9 +86,15 @@ namespace Leap_of_Faith
         /// <summary>
         /// Start the Game (simply set a boolean to false)
         /// </summary>
-        private void startGame()
+        private void ResumeGame()
         {
             isActive = false;
+        }
+
+        private void restartGame()
+        {
+            world.reset(pUp);
+            this.isActive = false;
         }
 
         /// <summary>

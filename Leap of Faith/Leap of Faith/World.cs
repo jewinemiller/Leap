@@ -16,9 +16,9 @@ namespace Leap_of_Faith
     {
         private const int CHECKPOINT_DISTANCE = 10000; 
 
-        public double sizeFactor = 3.0;
-        public float score = 0;
+        public double sizeFactor = 2.5;
         private int distTraveled = 0;
+        public float score = 0;
         public Background bg;
         public Background rocks;
         public Game1 game;
@@ -31,23 +31,23 @@ namespace Leap_of_Faith
         public void reset(Powerup p)
         {
             player.reset(p);
-            sizeFactor = 3.0;
+            sizeFactor = 2.5;
             distTraveled = 0;
             Texture2D tempTex = platforms[0].Texture;
             Texture2D[] textures = platforms[0].Textures;
             Random rand = platforms[0].rand;
             platforms.Clear();
-            addPlatform(new Rectangle(100, 100, 150, 25), tempTex, textures, rand);
-            addPlatform(new Rectangle(300, 100, 150, 25), tempTex, textures, rand);
-            addPlatform(new Rectangle(550, 100, 150, 25), tempTex, textures, rand);
-            addPlatform(new Rectangle(800, 100, 150, 25), tempTex, textures, rand);
+            addPlatform(new Rectangle(100, 200, 150, 25), tempTex, textures, rand);
+            addPlatform(new Rectangle(300, 200, 150, 25), tempTex, textures, rand);
+            addPlatform(new Rectangle(550, 150, 150, 25), tempTex, textures, rand);
+            addPlatform(new Rectangle(800, 175, 150, 25), tempTex, textures, rand);
             score = 0;
         }
 
         public void shrinkLight()
         {
-            if (sizeFactor > 1.1)
-                sizeFactor -= 0.002;
+            if (sizeFactor > 1.0)
+                sizeFactor -= 0.001;
         }
     }
 }

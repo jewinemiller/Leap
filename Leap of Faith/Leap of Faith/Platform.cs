@@ -62,10 +62,10 @@ namespace Leap_of_Faith
         public void movePlatforms(int distX)
         {
             this.distTraveled += distX;
-            this.score += (float)Math.Round((float)distX / (float)sizeFactor); 
+            this.score += (float)Math.Round((float)distX / (float)sizeFactor);
             if (distTraveled >= CHECKPOINT_DISTANCE)
             {
-                sizeFactor = 3.0;
+                sizeFactor = 2.5;
                 distTraveled = 0;
             }
             //Move torches
@@ -76,57 +76,57 @@ namespace Leap_of_Faith
 
             //Loop through the platforms
 
-                for (int i = 0; i < platforms.Count(); i++)
+            for (int i = 0; i < platforms.Count(); i++)
+            {
+                //Move each platform to the left by disX
+                platforms[i].Bounds = new Rectangle(platforms[i].Bounds.X - distX, platforms[i].Bounds.Y, platforms[i].Bounds.Width, platforms[i].Bounds.Height);
+                //If the platform is off the screen, generate a new one. 
+                if (platforms[i].Bounds.X + platforms[i].Bounds.Width <= -30)
                 {
-                    //Move each platform to the left by disX
-                    platforms[i].Bounds = new Rectangle(platforms[i].Bounds.X - distX, platforms[i].Bounds.Y, platforms[i].Bounds.Width, platforms[i].Bounds.Height);
-                    //If the platform is off the screen, generate a new one. 
-                    if (platforms[i].Bounds.X + platforms[i].Bounds.Width <= -30)
-                    {
-                        regenPlatform(platforms[i]);
-                    }
-
-                   /* if (p is FallingPlatform)
-                    {
-                        if ((p as FallingPlatform).checkPlayerCollision(this.player))
-                        {
-                            if ((p as FallingPlatform).isAboveGround())
-                            {
-                                (p as FallingPlatform).dropPlatform(1);
-                            }
-                            else
-                            {
-                                regenPlatform(p);
-                                break;
-                            }
-                        }
-                    }*/
+                    regenPlatform(platforms[i]);
                 }
-               /* if (sizeFactor > 1.5)
-                {
-                    if (sizeFactor > 3)
-                    {
-                        if (sizeFactor > 6)
-                        {
-                            if (sizeFactor < 9)
-                            {
-                                sizeFactor -= .03;
-                            }
-                            else
-                            {
-                                sizeFactor -= .01;
-                            }
-                        }
-                        else
-                        {
-                            sizeFactor -= .0025;
-                        }
-                    }
-                    else
-                    {
-                        sizeFactor -= .0015;
-                    }
-                }*/        
+
+                /* if (p is FallingPlatform)
+                 {
+                     if ((p as FallingPlatform).checkPlayerCollision(this.player))
+                     {
+                         if ((p as FallingPlatform).isAboveGround())
+                         {
+                             (p as FallingPlatform).dropPlatform(1);
+                         }
+                         else
+                         {
+                             regenPlatform(p);
+                             break;
+                         }
+                     }
+                 }*/
+            }
+            /* if (sizeFactor > 1.5)
+             {
+                 if (sizeFactor > 3)
+                 {
+                     if (sizeFactor > 6)
+                     {
+                         if (sizeFactor < 9)
+                         {
+                             sizeFactor -= .03;
+                         }
+                         else
+                         {
+                             sizeFactor -= .01;
+                         }
+                     }
+                     else
+                     {
+                         sizeFactor -= .0025;
+                     }
+                 }
+                 else
+                 {
+                     sizeFactor -= .0015;
+                 }
+             }*/
         }
 
         //Function that generates a new platform
@@ -148,25 +148,24 @@ namespace Leap_of_Faith
             Random rand = new Random();
             //This is the amount of Y distance that you will add between the platform currently being generated
             //and the one before it. 
-            int yDist = rand.Next(-200, 100 + p.Bounds.Height);
+            int yDist = rand.Next(-200, 90 + p.Bounds.Height);
             //The x Location of the new platform
             //This should generate a platform 100 - 200 pixels behind the rightmost edge of the previous platform
-            int xVal = temp.Bounds.X + temp.Bounds.Width + rand.Next(200, 300) + this.distTraveled/100;
+            int xVal = temp.Bounds.X + temp.Bounds.Width + rand.Next(200, 300) + this.distTraveled / 100;
             //Where the platform will be vertically.
             int yVal = temp.Bounds.Y + yDist;
 
             //If the platform will be off the screen, move it to the bottom of the screen.
             if (yVal >= graphics.PreferredBackBufferHeight - temp.Bounds.Height || yVal <= 0 + player.Body.Height)
             {
-                yVal = graphics.PreferredBackBufferHeight - temp.Bounds.Height - 15;
+                yVal = graphics.PreferredBackBufferHeight - temp.Bounds.Height - 35;
             }
 
             //Set the bounds of the new platform
             p.Bounds = new Rectangle(xVal, yVal, rand.Next(150, 350), 25);
 
-            int isFalling = rand.Next(15);
-            //int isFalling = 1;
-            if (isFalling == 1 && p.Bounds.Y < graphics.PreferredBackBufferHeight - 200)
+            int isFalling = rand.Next(26);
+            if (isFalling == 1 && p.Bounds.Y < graphics.PreferredBackBufferHeight - 150)
             {
                 p = new FallingPlatform(p.Bounds, p.Texture, p.Textures, p.rand);
             }
@@ -268,7 +267,7 @@ namespace Leap_of_Faith
 
         public Rectangle Bounds
         {
-            get{return bounds;}
+            get { return bounds; }
             set { bounds = value; }
         }
 
@@ -302,7 +301,7 @@ namespace Leap_of_Faith
         public void setTextures(Random rand)
         {
             int numTextures = (bounds.Width) / 15;
-           // Random rand = new Random();
+            // Random rand = new Random();
 
             piecesToDraw = new Texture2D[numTextures];
 
@@ -318,11 +317,11 @@ namespace Leap_of_Faith
 
             //Draw left cap
             Rectangle leftBound = new Rectangle(bounds.X, bounds.Y, 26, 25);
-           
+
             if (drawBounds.Intersects(leftBound))
             {
                 Rectangle drawnLeft = Rectangle.Intersect(drawBounds, leftBound);
-                s.Draw(textures[0], drawnLeft,  new Rectangle(0,0,textures[0].Width, drawnLeft.Height), Color.White);
+                s.Draw(textures[0], drawnLeft, new Rectangle(0, 0, textures[0].Width, drawnLeft.Height), Color.White);
             }
 
             //Draw middle textures
@@ -334,17 +333,18 @@ namespace Leap_of_Faith
                 {
                     Rectangle drawnMid = Rectangle.Intersect(drawBounds, temp);
                     s.Draw(piecesToDraw[i], drawnMid, new Rectangle(0, 0, piecesToDraw[i].Width, drawnMid.Height), Color.White);
+
                 }
                 xDist += 15;
             }
 
             //Draw end cap
-            Rectangle endRect = new Rectangle(bounds.X + xDist - 26, bounds.Y, 26, 25);
+            Rectangle endRect = new Rectangle(bounds.X + xDist, bounds.Y, 26, 25);
             if (drawBounds.Intersects(endRect))
             {
                 Rectangle drawnEnd = Rectangle.Intersect(drawBounds, endRect);
-              // Rectangle temp = Rectangle.Intersect(drawBounds, endRect));
-               // s.Draw(textures[1], drawnEnd, new Rectangle(0,0,textures[1].Width, drawnEnd.Height), Color.White);
+                // Rectangle temp = Rectangle.Intersect(drawBounds, endRect));
+                //s.Draw(textures[1], drawnEnd, new Rectangle(0,0,textures[1].Width, drawnEnd.Height), Color.White);
             }
             xDist -= 15;
 

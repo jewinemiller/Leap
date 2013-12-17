@@ -35,7 +35,7 @@ namespace Leap_of_Faith
 
         public override void draw(SpriteBatch sb, SpriteFont drawFont)
         {
-            sb.DrawString(drawFont, Text, location, Color.Black);
+            sb.DrawString(drawFont, Text, location, Color.White);
         }
     }
 }

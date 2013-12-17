@@ -33,8 +33,8 @@ namespace Leap_of_Faith
         float gravity = 0.25f;
         float ySpeed = 5f;
         float xSpeed = 6f;
-        public int screenWidth;
-        public int screenHeight;
+        int screenWidth;
+        int screenHeight;
 
         //Torches stuff
         Texture2D flameTexture;
@@ -42,6 +42,8 @@ namespace Leap_of_Faith
         int currTorch = 0;
         SoundEffect burning;
         public SoundEffectInstance burning2;
+
+        public Animation animCycle;
 
         // Platform player is currently on.
         public Platform currentPlatform = null;
@@ -105,7 +107,7 @@ namespace Leap_of_Faith
         public void display(SpriteBatch s)
         {
             //Display the player
-            s.Draw(texture, position, Color.White);
+            s.Draw(animCycle.animCycle[animCycle.currFrame], new Rectangle((int)position.X, (int)position.Y, 50, 50), Color.White);
 
             //Draw torches, if any
             for (int i = 0; i < torches.Length; i++)
@@ -132,7 +134,7 @@ namespace Leap_of_Faith
             hState = HorizontalState.standing;
 
             //Check key presses to move player
-            if (kbState.IsKeyDown(Keys.Left) && kbState.IsKeyUp(Keys.Right))
+            if ((kbState.IsKeyDown(Keys.Left) && kbState.IsKeyUp(Keys.Right)) || (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D)))
             {
                 //Move left as long as there is room
                 if (position.X > 0 + xSpeed)
@@ -144,7 +146,7 @@ namespace Leap_of_Faith
                 }
             }
 
-            if (kbState.IsKeyDown(Keys.Right) && kbState.IsKeyUp(Keys.Left))
+            if ((kbState.IsKeyDown(Keys.Right) && kbState.IsKeyUp(Keys.Left)) || (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A)))
             {
                 //Move right as long as there is room
                 if (position.X < ((float)screenWidth - xSpeed)/2 - texture.Width / 2)
@@ -153,11 +155,13 @@ namespace Leap_of_Faith
 
                     //Move the player to the right
                     velocity.X = xSpeed;
+                    animCycle.nextFrame();
                 }
                 else
                 {
-                    world.bg.scroll((int)xSpeed - 3);
+                    world.bg.scroll((int)xSpeed-3);
                     world.movePlatforms((int)xSpeed);
+                    animCycle.nextFrame();
                     for (int i = 0; i < torches.Length; i++)
                     {
                         if (torches[i].Falling == false)
@@ -165,13 +169,14 @@ namespace Leap_of_Faith
                             torches[i].Location = new Vector2(torches[i].Location.X - xSpeed, torches[i].Location.Y);
                         }
                     }
-                    world.rocks.scroll((int)xSpeed - 1);
+
                     hState = HorizontalState.walkingRight;
+                    world.rocks.scroll((int)xSpeed - 1);
                 }
             }
 
             // Jumping/Falling
-            if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.Space)) // If the player is currently pressing up.
+            if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.Space) || kbState.IsKeyDown(Keys.W)) // If the player is currently pressing up.
             {
                 if (vState == VerticalState.none || vState == VerticalState.fallingPlatform) // If the player's veritcal state is none (not falling or jumping) or the player is on a Falling Platform.
                 {

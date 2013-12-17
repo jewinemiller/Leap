@@ -73,6 +73,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Torches\torch.png">
+      <Name>torch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="quit.png">
       <Name>quit</Name>
       <Importer>TextureImporter</Importer>
@@ -94,6 +101,13 @@
   <ItemGroup>
     <Compile Include="cursor.png">
       <Name>cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Torches\torchTexture.png">
+      <Name>torchTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -302,30 +316,98 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lantern\lantern1.png">
-      <Name>lantern1</Name>
+    <Compile Include="continue.png">
+      <Name>continue</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\intro.spritefont">
-      <Name>intro</Name>
+    <Compile Include="Backdrop.png">
+      <Name>Backdrop</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Font.spritefont">
+      <Name>Font</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
-      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lantern\lantern2.png">
-      <Name>lantern2</Name>
+    <Compile Include="mainmenu.jpg">
+      <Name>mainmenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lantern\lantern3.png">
-      <Name>lantern3</Name>
+    <Compile Include="running\lofwalking10001.png">
+      <Name>lofwalking10001</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10002.png">
+      <Name>lofwalking10002</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10003.png">
+      <Name>lofwalking10003</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10004.png">
+      <Name>lofwalking10004</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10005.png">
+      <Name>lofwalking10005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10006.png">
+      <Name>lofwalking10006</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10007.png">
+      <Name>lofwalking10007</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10008.png">
+      <Name>lofwalking10008</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10009.png">
+      <Name>lofwalking10009</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10010.png">
+      <Name>lofwalking10010</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10011.png">
+      <Name>lofwalking10011</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="running\lofwalking10012.png">
+      <Name>lofwalking10012</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gameover.jpg">
+      <Name>gameover</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -37,9 +37,10 @@ namespace Leap_of_Faith
         {
             //Initialize Everything
             items = new List<MenuItem>();
-          
-            play = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("start"));
-            quit = new Button(new Vector2(300.0f, 300.0f), c.Load<Texture2D>("quit"));
+
+            MenuTex = c.Load<Texture2D>("mainmenu");
+            play = new Button(new Vector2(300.0f, 100.0f), c.Load<Texture2D>("start"));
+            quit = new Button(new Vector2(300.0f, 200.0f), c.Load<Texture2D>("quit"));
             buttonClick = c.Load<SoundEffect>("Audio/WAVs/Buttons/button2");
 
             //Add everything to the array of items.

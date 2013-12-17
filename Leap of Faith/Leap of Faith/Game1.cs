@@ -18,6 +18,9 @@ namespace Leap_of_Faith
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
+        Vector2 fontLocation;
+        int fontTime;
 
         Texture2D playerTexture, lightmask, bgHolder, cursor;
         List<Texture2D> backgrounds;
@@ -27,13 +30,17 @@ namespace Leap_of_Faith
         Rectangle[] rockrects;
         Background backObj;
         Background rockObj;
+
         Song bgmusic;
 
         Effect lightEffect;
         RenderTarget2D scene, mask;
         //Make a player
         Player player;
+        List<Texture2D> playerAnimation;
+        Texture2D pHolder;
 
+        Animation playerAnim;
         World world;
         Menu menu;
         double sizeFactor;
@@ -50,11 +57,6 @@ namespace Leap_of_Faith
         Texture2D[] platformTextures;
 
         Random randomNumber = new Random();
-
-        //Fonts
-        SpriteFont introFont;
-        int fontTime;
-        Vector2 fontPos;
 
         public Game1()
         {
@@ -74,6 +76,7 @@ namespace Leap_of_Faith
             world = new World(graphics, this);
             sizeFactor = world.sizeFactor;
             backgrounds = new List<Texture2D>();
+            playerAnimation = new List<Texture2D>();
             rocks = new List<Texture2D>();
             //bgs = new Texture2D[3];
             //rects = new Rectangle[bgs.Length];
@@ -109,6 +112,10 @@ namespace Leap_of_Faith
             bgHolder = Content.Load<Texture2D>("rocky3");
             rocks.Add(bgHolder);
 
+            font = Content.Load<SpriteFont>("Font");
+            fontLocation = new Vector2(0.0f, graphics.GraphicsDevice.Viewport.Height-25);
+            fontTime = 0;
+
             bgmusic = Content.Load<Song>("Audio/MP3s/song2");
 
             platformTextures = new Texture2D[17];
@@ -120,13 +127,41 @@ namespace Leap_of_Faith
                 platformTextures[i + 2] = Content.Load<Texture2D>("Platforms/segment" + Convert.ToString(i+1));
             }
 
-            world.addPlatform(new Rectangle(100, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(300, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(550, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
-            world.addPlatform(new Rectangle(800, 100, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10001");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10002");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10003");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10004");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10005");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10006");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10007");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10008");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10009");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10010");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10011");
+            playerAnimation.Add(pHolder);
+            pHolder = Content.Load<Texture2D>("running/lofwalking10012");
+            playerAnimation.Add(pHolder);
+
+            playerAnim = new Animation(1, playerAnimation);
+
+            world.addPlatform(new Rectangle(100, 200, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(300, 200, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(550, 150, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
+            world.addPlatform(new Rectangle(800, 175, 150, 25), Content.Load<Texture2D>("Platform"), platformTextures, randomNumber);
 
             playerTexture = Content.Load<Texture2D>("dude");
             player = new Player(playerTexture, graphics, world, flameTexture);
+            player.animCycle = playerAnim;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -159,22 +194,21 @@ namespace Leap_of_Faith
             rockrects = new Rectangle[rocks.Count];
             rects[0] = new Rectangle(0, 0, backgrounds[0].Width, backgrounds[0].Height);
             rockrects[0] = new Rectangle(0, 0, rocks[0].Width, rocks[0].Height);
+
             for (int i = 1; i < rects.Length; i++)
             {
                 rects[i] = new Rectangle((rects[i - 1].X + rects[i - 1].Width), 0, backgrounds[i].Width, backgrounds[i].Height);
             }
+
             for (int i = 1; i < rockrects.Length; i++)
             {
                 rockrects[i] = new Rectangle((rockrects[i - 1].X + rockrects[i - 1].Width), 0, rocks[i].Width, rocks[i].Height);
             }
+
             backObj = new Background(rects);
             world.bg = backObj;
             rockObj = new Background(rockrects);
             world.rocks = rockObj;
-            //Fonts
-            introFont = Content.Load<SpriteFont>("Fonts/intro");
-            fontTime = 0;
-            fontPos = new Vector2((graphics.PreferredBackBufferWidth / 2) - 100, (graphics.PreferredBackBufferHeight / 2) - 50);
         }
 
         /// <summary>
@@ -199,28 +233,26 @@ namespace Leap_of_Faith
 
         protected override void Update(GameTime gameTime)
         {
+
             if (!menu.isActive)
             {
-                //Increase time for displaying fonts
-                fontTime++;
-
                 world.shrinkLight();
+
+                fontTime++;
 
                 currState = Keyboard.GetState();
                 // Allows the game to exit
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                    this.Exit();
                 if (currState.IsKeyDown(Keys.Escape) && !prevState.IsKeyDown(Keys.Escape))
                 {
-                    menu = new PauseMenu(Content, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 250, 0, 500, graphics.PreferredBackBufferHeight));
+                    menu = new PauseMenu(Content, new Rectangle(graphics.PreferredBackBufferWidth, 0, 500, graphics.PreferredBackBufferHeight), world, torchPowerup);
                 }
+
                 player.move(currState, prevState, torchPowerup);
                 player.checkState();
 
                 if (player.Location.Y >= graphics.PreferredBackBufferHeight - player.Body.Height)
                 {
                     menu = new GameOver(Content, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), world, torchPowerup);
-                    fontTime = 0;
                 }
                 world.checkForTorches(player, torchPowerup);
 
@@ -241,7 +273,7 @@ namespace Leap_of_Faith
                 currMouse = Mouse.GetState();
                 mouseLoc = new Vector2(currMouse.X, currMouse.Y);
                 menu.Update(gameTime);
-                prevMouse = currMouse; 
+                prevMouse = currMouse;
             }
             base.Update(gameTime);
         }
@@ -253,47 +285,52 @@ namespace Leap_of_Faith
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-                  DrawScene(graphics.GraphicsDevice);
+                DrawScene(graphics.GraphicsDevice);
                 DrawEffects(graphics.GraphicsDevice);
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 lightEffect.Parameters["lightMask"].SetValue(mask);
                 lightEffect.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
+                spriteBatch.Draw(scene, new Vector2(0, 0), Color.Black);
                 spriteBatch.End();
+                spriteBatch.Begin();
+                spriteBatch.DrawString(font, "Torches x" + torchPowerup.getUses(), fontLocation, Color.LightGray);
+                spriteBatch.End();
+            
+            if(menu.isActive)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(Content.Load < Texture2D >("backdrop"), new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), new Color(0.0f, 0.0f, 0.0f, 0.6f));
+                menu.draw(spriteBatch, font);
+                spriteBatch.Draw(cursor, mouseLoc, Color.White);
+                spriteBatch.End();
+            }
 
-                if (menu.isActive)
+            else
+            {
+                //Draw fonts
+                spriteBatch.Begin();
+
+                float firstChange = 250;
+                float secondChange = 500;
+                float thirdChange = 750;
+
+                //Draw controls font
+                if (fontTime < firstChange)
                 {
-                    spriteBatch.Begin();
-                    menu.draw(spriteBatch, introFont);
-                    spriteBatch.Draw(cursor, mouseLoc, Color.Black);
-                    spriteBatch.End();
+                    spriteBatch.DrawString(font, "Arrow keys/A and D to move", new Vector2((graphics.PreferredBackBufferWidth / 2) - 100, fontLocation.Y), Color.LightGray);
                 }
-                else
+                else if (fontTime > firstChange && fontTime < secondChange)
                 {
-                    //Draw fonts
-                    spriteBatch.Begin();
+                    spriteBatch.DrawString(font, "Space, Up arrow, or W to jump", new Vector2((graphics.PreferredBackBufferWidth / 2) - 100, fontLocation.Y), Color.LightGray);
+                }
+                else if (fontTime > secondChange && fontTime < thirdChange)
+                {
+                    spriteBatch.DrawString(font, "Throw torch with F", new Vector2((graphics.PreferredBackBufferWidth / 2) - 100, fontLocation.Y), Color.LightGray);
+                }
 
-                    float firstChange = 125;
-                    float secondChange = 225;
-                    float thirdChange = 325;
-
-                    //Draw controls font
-                    if (fontTime < firstChange)
-                    {
-                        spriteBatch.DrawString(introFont, "Space or up arrow to jump", fontPos, Color.DarkGoldenrod);
-                    }
-                    else if (fontTime > firstChange && fontTime < secondChange)
-                    {
-                        spriteBatch.DrawString(introFont, "Arrow keys to move", fontPos, Color.DarkGoldenrod);
-                    }
-                    else if (fontTime > secondChange && fontTime < thirdChange)
-                    {
-                        spriteBatch.DrawString(introFont, "Throw torch with F", fontPos, Color.DarkGoldenrod);
-                    }
-
-                    spriteBatch.End();
-               }
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }
@@ -341,15 +378,18 @@ namespace Leap_of_Faith
             float sizeVal = (1.0f - (1.1f / (float)world.sizeFactor));
             if (sizeVal < .05f)
             {
-                sizeVal = .05f; 
+                sizeVal = .05f;
             }
+
             // Create a Black Background
             spriteBatch.Begin();
            
             for (int i = 0; i < backgrounds.Count; i++)
             {
-                spriteBatch.Draw(backgrounds[i], rects[i], new Color(sizeVal, sizeVal, sizeVal));
+                spriteBatch.Draw(backgrounds[i], rects[i], Color.White);
             }
+
+            spriteBatch.Draw(Content.Load<Texture2D>("backdrop"), new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), new Color(0.0f, 0.0f, 0.0f, 0.8f));
             for (int i = 0; i < rocks.Count; i++)
             {
                 spriteBatch.Draw(rocks[i], rockrects[i], new Color(sizeVal, sizeVal, sizeVal));
@@ -360,7 +400,7 @@ namespace Leap_of_Faith
 
             //Draw mask around the player
             spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.Location.X - offset + playerTexture.Width / 2), Convert.ToInt32(player.Location.Y - offset + playerTexture.Height / 2),
-                Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.White);
+                Convert.ToInt32(lightmask.Width * sizeFactor), Convert.ToInt32(lightmask.Height * sizeFactor)), Color.LightGray);
 
             //Draw mask around torch
             for (int i = 0; i < player.NumTorches; i++)
@@ -369,7 +409,7 @@ namespace Leap_of_Faith
                 {
                     
                     spriteBatch.Draw(lightmask, new Rectangle(Convert.ToInt32(player.getTorch(i).Location.X - lightmask.Width / 2 - flameTexture.Width), Convert.ToInt32(player.getTorch(i).Location.Y - lightmask.Height / 2 - flameTexture.Height),
-                    Convert.ToInt32(lightmask.Width * 1.25), Convert.ToInt32(lightmask.Height * 1.25)), Color.White);
+                    Convert.ToInt32(lightmask.Width * 1.25), Convert.ToInt32(lightmask.Height * 1.25)), Color.LightGray);
                 }
             }
             spriteBatch.End();

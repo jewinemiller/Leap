@@ -101,7 +101,7 @@ namespace Leap_of_Faith
                 int num = 0;
                 for (int c = 0; c < player.torches.Length; c++)
                 {
-                    if (player.torches[c].burnTime > 0 && player.torches[c].position.Y < player.screenHeight + 50)
+                    if (player.torches[c].burnTime > 0)
                     {
                         num++;
                     }
